@@ -4,8 +4,8 @@ import Swatch from "./components/swatch";
 import rough from "roughjs/bundled/rough.esm";
 
 const gen = rough.generator();
-function createElement(id, x1, y1, x2, y2) {
-  const roughEle = gen.line(x1, y1, x2, y2);
+function createElement(id, x1, y1, x2, y2, color) {
+  const roughEle = gen.line(x1, y1, x2, y2, {stroke: color});
   return { id, x1, y1, x2, y2, roughEle };
 }
 
@@ -28,22 +28,21 @@ export const adjustElementCoordinates = (element) => {
 function App() {
   const [elements, setElements] = useState([]);
   const [isDrawing, setIsDrawing] = useState(false);
-
+  const [color, setColor] = useState('black')
   const [points, setPoints] = useState([]);
   const [path, setPath] = useState([]);
-
+  // const [isAllowed, setAllowed] = useState(false);
   const [action, setAction] = useState("none");
-  const [toolType, setToolType] = useState("pencil");
+  const [toolType, setToolType] = useState("none");
   const [selectedElement, setSelectedElement] = useState(null);
 
   useEffect(() => {
+    // console.log(isDrawing)
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
     context.lineCap = "round";
     context.lineJoin = "round";
-
     context.save();
-
     const drawpath = () => {
       path.forEach((stroke, index) => {
         context.beginPath();
@@ -64,39 +63,33 @@ function App() {
         context.save();
       });
     };
-
     const roughCanvas = rough.canvas(canvas);
-
     if (path !== undefined) drawpath();
-
     elements.forEach(({ roughEle }) => {
       context.globalAlpha = "1";
       roughCanvas.draw(roughEle);
     });
-
     return () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
     };
   }, [elements, path]);
 
   const updateElement = (index, x1, y1, x2, y2, toolType) => {
-    const updatedElement = createElement(index, x1, y1, x2, y2, toolType);
+    const updatedElement = createElement(index, x1, y1, x2, y2, color, toolType);
     const elementsCopy = [...elements];
     elementsCopy[index] = updatedElement;
     setElements(elementsCopy);
   };
 
   const handleMouseDown = (e) => {
-    console.log(toolType);
+    // console.log(toolType);
     const { clientX, clientY } = e;
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
-
     const id = elements.length;
     if (toolType === "pencil") {
       setAction("sketching");
       setIsDrawing(true);
-
       const transparency = "1.0";
       const newEle = {
         clientX,
@@ -104,7 +97,6 @@ function App() {
         transparency,
       };
       setPoints((state) => [...state, newEle]);
-
       context.lineCap = 5;
       context.moveTo(clientX, clientY);
       context.beginPath();
@@ -114,7 +106,7 @@ function App() {
 
       setElements((prevState) => [...prevState, element]);
       setSelectedElement(element);
-      console.log(elements);
+      // console.log(elements);
     }
   };
 
@@ -141,6 +133,7 @@ function App() {
       updateElement(index, x1, y1, clientX, clientY, toolType);
     }
   };
+
   const handleMouseUp = () => {
     if (action === "drawing") {
       const index = selectedElement.id;
@@ -158,33 +151,56 @@ function App() {
     }
     setAction("none");
   };
-
+  const changeColor = (evt) => {
+    if(evt) { 
+      setColor(evt.target.value);
+    } else {
+      console.error("No event detected!")
+    }
+   
+  }
+  // Undo function
+  const undoClicked = () => {
+    // console.log("Undo Clicked!")
+    if(elements.length === 0 || elements === undefined) {
+      console.log("It is initial State")
+    } else {
+      elements.pop();
+      setElements([...elements]);
+    }
+  }
   return (
     <div>
-      <div>
-        <Swatch setToolType={setToolType} />
-        <button onClick={() => {
-            console.log("Undo Clicked!")
-            if(elements.length === 0 || elements === undefined) {
-              console.log("It is initial State")
-            } else {
-              elements.pop();
-              setElements([...elements]);
-            }
-        }}>Undo</button>
-      </div>
-    
       <canvas
         id="canvas"
         className="App"
         width={window.innerWidth}
-        height={window.innerHeight}
+        height={window.innerHeight * 0.9}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
       >
         Canvas
       </canvas>
+      {/* Button Controls section: Line, Undo, Eraser, Color Select */}
+      <div style={{ display: 'flex', justifyContent: 'center'}}>
+        <Swatch setToolType={setToolType} />
+        <button 
+          name="undo"
+          onClick={undoClicked}>Undo</button>
+        <select 
+          name="color"
+          onChange={changeColor}>
+            <option style={{color: 'black'}}>black</option>
+            <option style={{color: 'orange'}}>orange</option>
+            <option style={{color: 'yellow'}}>yellow</option>
+            <option style={{color: 'red'}}>red</option>
+            <option style={{color: 'blue'}}>blue</option>
+            <option style={{color: 'green'}}>green</option>
+            <option style={{color: 'purple'}}>purple</option>
+        </select>
+        <button name="eraser">Eraser</button>
+      </div>
     </div>
   );
 }
