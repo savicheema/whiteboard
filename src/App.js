@@ -207,6 +207,7 @@ function App() {
             <option style={{color: 'blue'}}>blue</option>
             <option style={{color: 'green'}}>green</option>
             <option style={{color: 'purple'}}>purple</option>
+            <option style={{color: 'gray'}}>white</option>
         </select>
         <button name="eraser">Eraser</button>
         <button onClick={darkMode}>Dark Mode</button>
