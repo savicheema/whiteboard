@@ -35,6 +35,7 @@ function App() {
   const [action, setAction] = useState("none");
   const [toolType, setToolType] = useState("none");
   const [selectedElement, setSelectedElement] = useState(null);
+  const [isDark, setDarkMode] = useState("white")
 
   useEffect(() => {
     // console.log(isDrawing)
@@ -142,7 +143,7 @@ function App() {
       updateElement(id, x1, y1, x2, y2, type, strokeWidth);
     } else if (action === "sketching") {
       const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
+      const context = canvas.getContext("2d")
       context.closePath();
       const element = points;
       setPoints([]);
@@ -169,6 +170,13 @@ function App() {
       setElements([...elements]);
     }
   }
+
+  const darkMode = () => {
+    setDarkMode("black")
+  }
+  const lightMode = () => {
+    setDarkMode("white")
+  }
   return (
     <div>
       <canvas
@@ -179,6 +187,7 @@ function App() {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        style={{ backgroundColor: isDark}}
       >
         Canvas
       </canvas>
@@ -200,6 +209,8 @@ function App() {
             <option style={{color: 'purple'}}>purple</option>
         </select>
         <button name="eraser">Eraser</button>
+        <button onClick={darkMode}>Dark Mode</button>
+        <button onClick={lightMode}>Light Mode</button>
       </div>
     </div>
   );
