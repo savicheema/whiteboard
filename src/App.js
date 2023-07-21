@@ -37,10 +37,19 @@ function App() {
   const [selectedElement, setSelectedElement] = useState(null);
   const [isDark, setDarkMode] = useState("white")
 
+  const handleUndoKeyDown = (event) => {
+    if (event.ctrlKey && (event.key === 'z' || event.code === 'KeyZ')) {
+      // Perform the Undo operation here
+      undoClicked();
+      event.preventDefault(); // Prevent the default "undo" action of the browser
+    }
+  };
+
   useEffect(() => {
     // console.log(isDrawing)
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
+    document.addEventListener('keydown', handleUndoKeyDown);
     context.lineCap = "round";
     context.lineJoin = "round";
     context.save();
@@ -72,6 +81,7 @@ function App() {
     });
     return () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+      document.removeEventListener('keydown', handleUndoKeyDown);
     };
   }, [elements, path]);
 
