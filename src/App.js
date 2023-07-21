@@ -200,14 +200,15 @@ function App() {
         <select 
           name="color"
           onChange={changeColor}>
-            <option style={{color: 'black'}}>black</option>
+            {isDark === "white" && <option style={{color: 'black'}}>black</option>}
             <option style={{color: 'orange'}}>orange</option>
             <option style={{color: 'yellow'}}>yellow</option>
             <option style={{color: 'red'}}>red</option>
             <option style={{color: 'blue'}}>blue</option>
             <option style={{color: 'green'}}>green</option>
             <option style={{color: 'purple'}}>purple</option>
-            <option style={{color: 'gray'}}>white</option>
+            <option style={{color: 'lavendar'}}>Lavender</option>
+            {isDark === "black" && <option style={{color: 'white'}}>white</option>}
         </select>
         <button name="eraser">Eraser</button>
         <button onClick={darkMode}>Dark Mode</button>
