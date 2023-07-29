@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Swatch from "./components/swatch";
@@ -224,6 +225,28 @@ function App() {
         <button onClick={darkMode}>Dark Mode</button>
         <button onClick={lightMode}>Light Mode</button>
       </div>
+=======
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+>>>>>>> c8d341d (Initialize project using Create React App)
     </div>
   );
 }
