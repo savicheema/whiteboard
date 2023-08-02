@@ -93,7 +93,7 @@ const Canvas = ({shape, color, objects, setObjects}) => {
   };
 
   return <div>
-    <p>{shape}</p>
+
     <canvas onKeyDown={handleKeyDown} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={canvasRef} width={window.innerWidth} height={window.innerHeight * 0.7}/></div>;
 };
 
