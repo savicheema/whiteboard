@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { SET_OBJECTS } from "../store/consts";
 
-const Canvas = ({shape, color, objects, setObjects}) => {
-  const [bgColor, setBgColor] = useState("white")
+const Canvas = ({shape, color, objects, setObjects, isDark}) => {
+  // const [bgColor, setBgColor] = useState("white")
   const canvasRef = useRef(null)
   const drawingState = useRef('');
   const lastMousePosition = useRef({ x: 0, y: 0 });
@@ -26,6 +26,7 @@ const Canvas = ({shape, color, objects, setObjects}) => {
         ctx.lineWidth = 2;
         ctx.stroke();
         break;
+
       case 'rect':
         ctx.beginPath();
         ctx.strokeStyle = object.color;
@@ -36,6 +37,7 @@ const Canvas = ({shape, color, objects, setObjects}) => {
         let height = Math.abs(object.pts[0].y - object.pts[1].y);
         ctx.strokeRect(x, y, width, height);
         break;
+
       case 'text':
         ctx.fillStyle = object.color;
         let metrics = ctx.measureText(object.text);
@@ -46,12 +48,14 @@ const Canvas = ({shape, color, objects, setObjects}) => {
         ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y + 10);
         ctx.stroke();
         break;
+
       case 'eraser':
         ctx.globalCompositeOperation="destination-out";
         for (let i = 0; i < object.pts.length; i ++) {
           ctx.fillRect(object.pts[i].x, object.pts[i].y, 10, 10);
         }
         break;
+        
       default:
         break;
       }
@@ -92,17 +96,11 @@ const Canvas = ({shape, color, objects, setObjects}) => {
   const handleKeyDown = (e) => {
     console.log(e);
   };
-  const handleDarkColor = () => {
-    setBgColor("gray")
-  }
-  const handleLightColor = () => {
-    setBgColor("white")
-  }
+ console.log(isDark, "isDark")
   return <div>
 
-    <canvas style={{backgroundColor: bgColor}}onKeyDown={handleKeyDown} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={canvasRef} width={window.innerWidth} height={window.innerHeight * 0.7}/>
-    <button onClick={handleDarkColor}>Dark Mode</button>
-    <button onClick={handleLightColor}>Light Mode</button>
+    <canvas style={{backgroundColor: isDark}}onKeyDown={handleKeyDown} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={canvasRef} width={window.innerWidth} height={window.innerHeight * 0.7}/>
+   
     </div>;
 };
 

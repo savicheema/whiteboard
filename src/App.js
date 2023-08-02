@@ -6,6 +6,7 @@ import ToolPanel from './components/ToolPanel';
 import { Provider } from 'react-redux';
 
 function App() {
+  const [isDark, setDarkMode] = useState("white");
   return (
     <Provider store={store}>
       <div className="App">
@@ -13,8 +14,8 @@ function App() {
         <h1>Welcome to Whiteboard app</h1>
         
         </header> */}
-        <Canvas />
-        <ToolPanel />
+        <Canvas isDark={isDark}/>
+        <ToolPanel setDarkMode={(para)=>setDarkMode(para)} isDark={isDark}/>
       </div>
     </Provider>
   );

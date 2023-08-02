@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { REDO_ACTION, SET_COLOR, SET_SHAPE, UNDO_ACTION } from "../store/consts";
 
-const ToolPanel = ({ setShape, setColor, undo, redo }) => {
+const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark }) => {
     const handleLineClicked = () => {
         setShape("line");
     }
@@ -23,6 +23,13 @@ const ToolPanel = ({ setShape, setColor, undo, redo }) => {
     const handleTextClicked = () => {
         setShape("text");
     }
+
+    const handleDarkColor = () => {
+        setDarkMode("black")
+      }
+      const handleLightColor = () => {
+        setDarkMode("white")
+      }
     
     return(
         <div>
@@ -36,6 +43,8 @@ const ToolPanel = ({ setShape, setColor, undo, redo }) => {
             <button onClick={ () => undo() }>Undo</button>
             <button onClick={ () => redo() }>Redo</button>
             <select onChange={handleColorClicked}>
+                {console.log(isDark)}
+            {isDark === "white" && <option style={{color: 'black'}}>black</option>}
                 <option style={{color: 'orange'}}>orange</option>
                 <option style={{color: 'yellow'}}>yellow</option>
                 <option style={{color: 'red'}}>red</option>
@@ -43,9 +52,10 @@ const ToolPanel = ({ setShape, setColor, undo, redo }) => {
                 <option style={{color: 'green'}}>green</option>
                 <option style={{color: 'purple'}}>purple</option>
                 <option style={{color: 'lavendar'}}>Lavender</option> 
-                <option style={{color: 'black'}}>Black</option>         
+            {isDark === "black" && <option style={{color: 'gray'}}>white</option>  }       
             </select>
-           
+            <button onClick={handleDarkColor}>Dark Mode</button>
+            <button onClick={handleLightColor}>Light Mode</button>
             
         </div>
     )
