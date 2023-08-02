@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { SET_OBJECTS } from "../store/consts";
 
 const Canvas = ({shape, color, objects, setObjects}) => {
+  const [bgColor, setBgColor] = useState("white")
   const canvasRef = useRef(null)
   const drawingState = useRef('');
   const lastMousePosition = useRef({ x: 0, y: 0 });
@@ -91,10 +92,18 @@ const Canvas = ({shape, color, objects, setObjects}) => {
   const handleKeyDown = (e) => {
     console.log(e);
   };
-
+  const handleDarkColor = () => {
+    setBgColor("gray")
+  }
+  const handleLightColor = () => {
+    setBgColor("white")
+  }
   return <div>
 
-    <canvas onKeyDown={handleKeyDown} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={canvasRef} width={window.innerWidth} height={window.innerHeight * 0.7}/></div>;
+    <canvas style={{backgroundColor: bgColor}}onKeyDown={handleKeyDown} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} ref={canvasRef} width={window.innerWidth} height={window.innerHeight * 0.7}/>
+    <button onClick={handleDarkColor}>Dark Mode</button>
+    <button onClick={handleLightColor}>Light Mode</button>
+    </div>;
 };
 
 const mapStateToProps = (state) => ({

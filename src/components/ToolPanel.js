@@ -11,8 +11,11 @@ const ToolPanel = ({ setShape, setColor, undo, redo }) => {
     const handleTriangleClicked = () => {
         setShape("triangle");
     }
-    const handleColorClicked = () => {
-        setColor("#FF0000")
+    const handleColorClicked = (evt) => {
+        if(evt) {
+            setColor(evt.target.value)
+        }
+        
     }
     const handleEraserClicked = () => {
         setShape("eraser");
@@ -27,11 +30,22 @@ const ToolPanel = ({ setShape, setColor, undo, redo }) => {
             <button onClick={ handleLineClicked }>Line</button>
             <button onClick={ handlRectangleClicked }>Rectangle</button>
             <button onClick={ handleTriangleClicked }>Triangle</button>
-            <button onClick={ handleColorClicked }>Color</button>
+            {/* <button onClick={ handleColorClicked }>Color</button> */}
             <button onClick={ handleEraserClicked }>Eraser</button>
             <button onClick={ handleTextClicked }>Text</button>
             <button onClick={ () => undo() }>Undo</button>
             <button onClick={ () => redo() }>Redo</button>
+            <select onChange={handleColorClicked}>
+                <option style={{color: 'orange'}}>orange</option>
+                <option style={{color: 'yellow'}}>yellow</option>
+                <option style={{color: 'red'}}>red</option>
+                <option style={{color: 'blue'}}>blue</option>
+                <option style={{color: 'green'}}>green</option>
+                <option style={{color: 'purple'}}>purple</option>
+                <option style={{color: 'lavendar'}}>Lavender</option> 
+                <option style={{color: 'black'}}>Black</option>         
+            </select>
+           
             
         </div>
     )
