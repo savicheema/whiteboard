@@ -42,17 +42,17 @@ const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
-          ctx.fillText(object.text, object.pts[0].x, object.pts[0].y);
+          ctx.fillText("hello", object.pts[0].x, object.pts[0].y);
           ctx.beginPath();
-          ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y);
-          ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y + 10);
+          ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 10);
+          ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y);
           ctx.stroke();
           break;
 
         case "eraser":
           ctx.globalCompositeOperation = "destination-out";
           for (let i = 0; i < object.pts.length; i++) {
-            ctx.fillRect(object.pts[i].x, object.pts[i].y, 10, 10);
+            ctx.fillRect(object.pts[i].x, object.pts[i].y, 30, 30);
           }
           break;
 
@@ -101,7 +101,8 @@ const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
   };
 
   const handleKeyDown = (e) => {
-    console.log(e);
+    console.log(e.key);
+    
   };
   console.log(isDark, "isDark");
   return (
@@ -112,6 +113,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        tabIndex="0"
         ref={canvasRef}
         width={window.innerWidth}
         height={window.innerHeight * 0.8}
