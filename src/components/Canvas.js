@@ -1,13 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { SET_OBJECTS } from "../store/consts";
+import { SET_OBJECTS, UNDO_ACTION } from "../store/consts";
 
-const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
+const Canvas = ({ shape, color, objects, setObjects, isDark, undo }) => {
   // const [bgColor, setBgColor] = useState("white")
   const canvasRef = useRef(null);
   const drawingState = useRef("");
   const lastMousePosition = useRef({ x: 0, y: 0 });
 
+  const calcDistance = (x1, y1, x2, y2) => {
+    let distance = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+    return distance;
+  } 
   const drawObjectsOnCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -37,7 +41,21 @@ const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
           let height = Math.abs(object.pts[0].y - object.pts[1].y);
           ctx.strokeRect(x, y, width, height);
           break;
-
+        case "circle":
+          console.log(object)
+          console.log("circle");
+          ctx.beginPath();
+          ctx.strokeStyle = object.color;
+          ctx.lineWidth = 2;
+          let radius = calcDistance(object.pts[0].x, object.pts[1].x, object.pts[0].y, object.pts[1].y);
+          ctx.arc(object.pts[0].x, object.pts[0].y, radius, 0, 2 * Math.PI, false);
+          ctx.stroke();
+          break;
+          // let x = Math.min(object.pts[0].x, object.pts[1].x);
+          // let y = Math.min(object.pts[0].y, object.pts[1].y);
+          // let width = Math.abs(object.pts[0].x - object.pts[1].x);
+          // let height = Math.abs(object.pts[0].y - object.pts[1].y);
+          // ctx.strokeRect(x, y, width, height);
         case "text":
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
@@ -100,8 +118,13 @@ const Canvas = ({ shape, color, objects, setObjects, isDark }) => {
     drawingState.current = "";
   };
 
-  const handleKeyDown = (e) => {
-    console.log(e.key);
+  const handleKeyDown = (event) => {
+    // console.log(e.key);
+    if (event.ctrlKey && (event.key === 'z' || event.code === 'KeyZ')) {
+      // Perform the Undo operation here
+      undo();
+      event.preventDefault(); // Prevent the default "undo" action of the browser
+    }
     
   };
   console.log(isDark, "isDark");
@@ -130,6 +153,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
+  undo: () => dispatch({type: UNDO_ACTION})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
