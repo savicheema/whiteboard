@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { SET_OBJECTS, UNDO_ACTION } from "../store/consts";
+import { SET_OBJECTS, UNDO_ACTION, REDO_ACTION } from "../store/consts";
 
-const Canvas = ({ shape, color, objects, setObjects, isDark, undo }) => {
+const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
   // const [bgColor, setBgColor] = useState("white")
   const canvasRef = useRef(null);
   const drawingState = useRef("");
@@ -125,6 +125,12 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo }) => {
       undo();
       event.preventDefault(); // Prevent the default "undo" action of the browser
     }
+    if (event.ctrlKey && (event.key === 'y' || event.code === 'KeyY')) {
+      // Perform the Undo operation here
+      redo();
+      event.preventDefault(); // Prevent the default "undo" action of the browser
+    }
+    
     
   };
   console.log(isDark, "isDark");
@@ -153,7 +159,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
-  undo: () => dispatch({type: UNDO_ACTION})
+  undo: () => dispatch({type: UNDO_ACTION}),
+  redo: () => dispatch({type: REDO_ACTION})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
