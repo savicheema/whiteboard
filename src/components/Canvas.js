@@ -63,6 +63,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           // let height = Math.abs(object.pts[0].y - object.pts[1].y);
           // ctx.strokeRect(x, y, width, height);
         case "text":
+          ctx.font = "30px Arial";
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
