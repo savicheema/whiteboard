@@ -2,11 +2,12 @@ import { connect } from "react-redux";
 import {
   REDO_ACTION,
   SET_COLOR,
+  SET_OBJECTS,
   SET_SHAPE,
   UNDO_ACTION,
 } from "../store/consts";
 
-const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark }) => {
+const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, objects, setObjects }) => {
   const handleLineClicked = () => {
     setShape("line");
   };
@@ -34,9 +35,11 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark }) => {
 
   const handleDarkColor = () => {
     setDarkMode("black");
+    setObjects([...objects]);
   };
   const handleLightColor = () => {
     setDarkMode("white");
+    setObjects([...objects]);
   };
 
   return (
@@ -73,6 +76,7 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark }) => {
 
 const mapStateToProps = (state) => ({
   shape: state.shape,
+  objects: state.objects
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -80,6 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
   undo: () => dispatch({ type: UNDO_ACTION }),
   redo: () => dispatch({ type: REDO_ACTION }),
   setColor: (color) => dispatch({ type: SET_COLOR, color }),
+  setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPanel);

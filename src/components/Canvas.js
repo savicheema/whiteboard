@@ -16,8 +16,14 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    objects.forEach((object) => {
+    objects.forEach((object, key) => {
       ctx.globalCompositeOperation = "source-over";
+      if (object.color === 'black' && isDark === 'black') {
+        object.color = 'white';
+      }
+      if (object.color === 'white' && isDark === 'white') {
+        object.color = 'black';
+      }
       switch (object.shape) {
         case "pencil":
         case "line":
@@ -47,7 +53,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           ctx.beginPath();
           ctx.strokeStyle = object.color;
           ctx.lineWidth = 2;
-          let radius = calcDistance(object.pts[0].x, object.pts[1].x, object.pts[0].y, object.pts[1].y);
+          let radius = calcDistance(object.pts[0].x, object.pts[0].y, object.pts[1].x, object.pts[1].y);
           ctx.arc(object.pts[0].x, object.pts[0].y, radius, 0, 2 * Math.PI, false);
           ctx.stroke();
           break;
@@ -60,11 +66,13 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
-          ctx.fillText("hello", object.pts[0].x, object.pts[0].y);
-          ctx.beginPath();
-          ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 10);
-          ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y);
-          ctx.stroke();
+          ctx.fillText(object.text, object.pts[0].x, object.pts[0].y);
+          if (key === objects.length - 1) {
+            ctx.beginPath();
+            ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 10);
+            ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y);
+            ctx.stroke();
+          }
           break;
 
         case "eraser":
@@ -131,7 +139,17 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
       event.preventDefault(); // Prevent the default "undo" action of the browser
     }
     
-    
+    if(shape === 'text') {
+      console.log(event);
+      if (event.key === 'Backspace') {
+        objects[objects.length - 1].text = objects[objects.length - 1].text.substr(0, objects[objects.length - 1].text.length - 1);
+        setObjects([...objects]);
+      }
+      else {
+        objects[objects.length - 1].text += event.key;
+        setObjects([...objects]);
+      }
+    }
   };
   console.log(isDark, "isDark");
   return (

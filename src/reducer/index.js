@@ -3,7 +3,7 @@ import { REDO_ACTION, SET_COLOR, SET_OBJECTS, SET_SHAPE, UNDO_ACTION } from "../
 const initialState = {
     objects: [],
     shape: 'pencil',
-    color: '#000000',
+    color: 'black',
     history: []
 };
 
