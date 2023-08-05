@@ -67,10 +67,11 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
+          ctx.font = "20px Arial"
           ctx.fillText(object.text, object.pts[0].x, object.pts[0].y);
           if (key === objects.length - 1) {
             ctx.beginPath();
-            ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 10);
+            ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 20);
             ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y);
             ctx.stroke();
           }
@@ -141,18 +142,24 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     }
     
     if(shape === 'text') {
-      console.log(event);
+      // console.log(event);
       if (event.key === 'Backspace') {
         objects[objects.length - 1].text = objects[objects.length - 1].text.substr(0, objects[objects.length - 1].text.length - 1);
         setObjects([...objects]);
+        return;
       }
-      else {
+      if (event.key.length > 1) {
+        return;
+      }
+      const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+      if (regex.test(event.key)) {
+        console.log(event.key);
         objects[objects.length - 1].text += event.key;
         setObjects([...objects]);
       }
     }
   };
-  console.log(isDark, "isDark");
+  // console.log(isDark, "isDark");
   return (
     <div>
       <canvas
