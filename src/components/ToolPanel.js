@@ -28,6 +28,7 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
   };
   const handleEraserClicked = () => {
     setShape("eraser");
+    document.body.style.cursor = "url(path/to/eraser-cursor.png), pointer";
   };
   const handleTextClicked = () => {
     setShape("text");

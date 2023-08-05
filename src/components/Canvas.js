@@ -18,6 +18,12 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     objects.forEach((object, key) => {
       ctx.globalCompositeOperation = "source-over";
+      if (object.shape === 'eraser') {
+        document.body.style.cursor = "url(path/to/eraser-cursor.png), pointer";
+      }
+      else {
+        document.body.style.cursor = "url(path/to/eraser-cursor.png), auto";
+      }
       if (object.color === 'black' && isDark === 'black') {
         object.color = 'white';
       }
