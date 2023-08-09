@@ -71,6 +71,9 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
       </select>
       <button onClick={handleDarkColor}>Dark Mode</button>
       <button onClick={handleLightColor}>Light Mode</button>
+      <button onClick={() => {}}>Save & Export</button>
+      <button onClick={() => {}}>Import</button>
+      
     </div>
   );
 };
