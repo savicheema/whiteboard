@@ -69,14 +69,17 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           // let height = Math.abs(object.pts[0].y - object.pts[1].y);
           // ctx.strokeRect(x, y, width, height);
         case "text":
-          ctx.font = "30px Arial";
+          ctx.font = "25px Arial";
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
-          ctx.font = "20px Arial"
+          // ctx.font = "30px Arial"
           ctx.fillText(object.text, object.pts[0].x, object.pts[0].y);
           if (key === objects.length - 1) {
             ctx.beginPath();
+             console.log("text length")
+            // console.log(objects.length - 1);
+            console.log(metrics.width)
             ctx.moveTo(object.pts[0].x + metrics.width, object.pts[0].y - 20);
             ctx.lineTo(object.pts[0].x + metrics.width, object.pts[0].y);
             ctx.stroke();
@@ -139,12 +142,11 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     if (event.ctrlKey && (event.key === 'z' || event.code === 'KeyZ')) {
       // Perform the Undo operation here
       undo();
-      event.preventDefault(); // Prevent the default "undo" action of the browser
+      // Prevent the default "undo" action of the browser
     }
     if (event.ctrlKey && (event.key === 'y' || event.code === 'KeyY')) {
       // Perform the Undo operation here
       redo();
-      event.preventDefault(); // Prevent the default "undo" action of the browser
     }
     
     if(shape === 'text') {
@@ -154,16 +156,24 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
         setObjects([...objects]);
         return;
       }
+      
+      if (event.key === ' ' || event.key === '`') {
+        console.log('yes')
+        objects[objects.length - 1].text += event.key;
+        setObjects([...objects]);
+      }
       if (event.key.length > 1) {
         return;
       }
-      const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+      const regex = /^[~a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
       if (regex.test(event.key)) {
         console.log(event.key);
         objects[objects.length - 1].text += event.key;
         setObjects([...objects]);
       }
     }
+
+    event.preventDefault();
   };
   // console.log(isDark, "isDark");
   return (
