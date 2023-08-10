@@ -29,7 +29,7 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
   const handleEraserClicked = () => {
     setShape("eraser");
 
-     document.body.style.cursor = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAlQTFRFAAAAAAAA////g93P0gAAAAN0Uk5TAP//RFDWIQAAAFxJREFUeJxjYMAOWEMdIAzGqFVTISyxVatWBYBZWUDWErAkkLFqJYjFBmKtAumRArMmQJVBFMJZYA1gLdhYEENAxlDCwm8HNlchuRnhD4TfEP5FCgNEuCDCCg8AAHUsdO0s/5hdAAAAAElFTkSuQmCC) 0 0, default !important";
+    //  document.body.style.cursor = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAlQTFRFAAAAAAAA////g93P0gAAAAN0Uk5TAP//RFDWIQAAAFxJREFUeJxjYMAOWEMdIAzGqFVTISyxVatWBYBZWUDWErAkkLFqJYjFBmKtAumRArMmQJVBFMJZYA1gLdhYEENAxlDCwm8HNlchuRnhD4TfEP5FCgNEuCDCCg8AAHUsdO0s/5hdAAAAAElFTkSuQmCC) 0 0, default !important";
   };
   const handleTextClicked = () => {
     setShape("text");
@@ -49,7 +49,7 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
       <button onClick={() => setShape("pencil")}>Pencil</button>
       <button onClick={handleLineClicked}>Line</button>
       <button onClick={handlRectangleClicked}>Rectangle</button>
-      <button onClick={handleTriangleClicked}>Triangle</button>
+      {/* <button onClick={}>Triangle</button> */}
       <button onClick={handleCircleClicked}>Circle</button>
       {/* <button onClick={ handleColorClicked }>Color</button> */}
       <button onClick={handleEraserClicked}>Eraser</button>
