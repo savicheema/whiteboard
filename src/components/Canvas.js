@@ -114,24 +114,28 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
   const handleMouseDown = (e) => {
     console.log(e, shape);
     drawingState.current = "draw";
-    lastMousePosition.current = { x: e.clientX, y: e.clientY };
+    const x = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+    const y = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+    lastMousePosition.current = { x, y };
     objects.push({
       shape,
       color,
       text: "",
       pts: [
-        { x: e.clientX, y: e.clientY },
-        { x: e.clientX, y: e.clientY },
+        { x, y },
+        { x, y },
       ],
     });
     setObjects([...objects]);
   };
   const handleMouseMove = (e) => {
     if (drawingState.current === "draw") {
+      const x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+      const y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
       if (shape === "pencil" || shape === "eraser") {
-        objects[objects.length - 1].pts.push({ x: e.clientX, y: e.clientY });
+        objects[objects.length - 1].pts.push({ x, y });
       } else {
-        objects[objects.length - 1].pts[1] = { x: e.clientX, y: e.clientY };
+        objects[objects.length - 1].pts[1] = { x, y };
       }
       setObjects([...objects]);
     }
@@ -188,6 +192,9 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
         tabIndex="0"
         ref={canvasRef}
         width={window.innerWidth}
