@@ -19,10 +19,14 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     objects.forEach((object, key) => {
       ctx.globalCompositeOperation = "source-over";
       if (object.shape === 'eraser') {
-        document.body.style.cursor = "url(path/to/eraser-cursor.png), pointer";
+        document.body.style.cursor = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAlQTFRFAAAAAAAA////g93P0gAAAAN0Uk5TAP//RFDWIQAAAFxJREFUeJxjYMAOWEMdIAzGqFVTISyxVatWBYBZWUDWErAkkLFqJYjFBmKtAumRArMmQJVBFMJZYA1gLdhYEENAxlDCwm8HNlchuRnhD4TfEP5FCgNEuCDCCg8AAHUsdO0s/5hdAAAAAElFTkSuQmCC) 0 0, default !important";
+        // document.body.style.cursor = "url('eraser-cursor.png'), auto";
+
       }
       else {
-        document.body.style.cursor = "url(path/to/eraser-cursor.png), auto";
+        // document.body.style.cursor = "url(path/to/eraser-cursor.png), auto";
+        // document.body.style.cursor = "url('eraser-cursor.png'), auto";
+
       }
       if (object.color === 'black' && isDark === 'black') {
         object.color = 'white';
@@ -177,7 +181,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
   };
   // console.log(isDark, "isDark");
   return (
-    <div>
+    <div className={shape === 'eraser' ? 'eraser-cursor' : ''}>
       <canvas
         style={{ backgroundColor: isDark }}
         onKeyDown={handleKeyDown}

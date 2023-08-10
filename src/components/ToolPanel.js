@@ -28,7 +28,8 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
   };
   const handleEraserClicked = () => {
     setShape("eraser");
-    document.body.style.cursor = "url(path/to/eraser-cursor.png), pointer";
+
+     document.body.style.cursor = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAlQTFRFAAAAAAAA////g93P0gAAAAN0Uk5TAP//RFDWIQAAAFxJREFUeJxjYMAOWEMdIAzGqFVTISyxVatWBYBZWUDWErAkkLFqJYjFBmKtAumRArMmQJVBFMJZYA1gLdhYEENAxlDCwm8HNlchuRnhD4TfEP5FCgNEuCDCCg8AAHUsdO0s/5hdAAAAAElFTkSuQmCC) 0 0, default !important";
   };
   const handleTextClicked = () => {
     setShape("text");
@@ -90,5 +91,6 @@ const mapDispatchToProps = (dispatch) => ({
   setColor: (color) => dispatch({ type: SET_COLOR, color }),
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPanel);
