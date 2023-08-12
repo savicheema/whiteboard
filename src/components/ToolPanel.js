@@ -6,8 +6,12 @@ import {
   SET_SHAPE,
   UNDO_ACTION,
 } from "../store/consts";
+import { saveAs } from "file-saver";
+import { useRef } from "react";
 
 const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, objects, setObjects }) => {
+  const fileRef = useRef(null);
+
   const handleLineClicked = () => {
     setShape("line");
   };
@@ -43,6 +47,36 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
     setDarkMode("white");
     setObjects([...objects]);
   };
+  const exportToJsonFile = (jsonObject) => {
+    const jsonString = JSON.stringify(jsonObject);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    saveAs(blob, "data.json");
+  };
+  const handleExport = () => {
+    exportToJsonFile(objects);
+  }
+  
+  const handleFileRead = (e) => {
+    const content = e.target.result;
+    
+    // Do something with the file content
+    setObjects(JSON.parse(content));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    
+    if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = handleFileRead;
+      reader.readAsText(file);
+    }
+  }
+
+  const handleImport = (e) => {
+    fileRef.current.click();
+  }
 
   return (
     <div>
@@ -72,9 +106,9 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
       </select>
       <button onClick={handleDarkColor}>Dark Mode</button>
       <button onClick={handleLightColor}>Light Mode</button>
-      <button onClick={() => {}}>Save & Export</button>
-      <button onClick={() => {}}>Import</button>
-      
+      <button onClick={handleExport}>Save & Export</button>
+      <button onClick={handleImport}>Import</button>
+      <input type="file" ref={fileRef} onChange={handleFileChange} style={{display: 'none'}} />
     </div>
   );
 };
