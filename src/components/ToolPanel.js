@@ -15,6 +15,18 @@ import {
 } from "./Buttons";
 import "./tool-panel.css";
 import UtilSelect from "../util-components/UtilSelect";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPencil,
+  faBox,
+  faSquare,
+  faCircle,
+  faEraser,
+  faFileText,
+  faTextWidth,
+  faBackward,
+  faForward,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ToolPanel = ({
   setShape,
@@ -100,25 +112,29 @@ const ToolPanel = ({
     <div className="tool-panel">
       <div className="tool-panel-operations">
         <LargeSecondaryButton onClick={() => setShape("pencil")}>
-          Pencil
+          <FontAwesomeIcon icon={faPencil} />
         </LargeSecondaryButton>
         <LargeSecondaryButton onClick={handleLineClicked}>
           Line
         </LargeSecondaryButton>
         <LargeSecondaryButton onClick={handlRectangleClicked}>
-          Rectangle
+          <FontAwesomeIcon icon={faSquare} />
         </LargeSecondaryButton>
         <LargeSecondaryButton onClick={handleCircleClicked}>
-          Circle
+          <FontAwesomeIcon icon={faCircle} />
         </LargeSecondaryButton>
         <LargeSecondaryButton onClick={handleEraserClicked}>
-          Eraser
+          <FontAwesomeIcon icon={faEraser} />
         </LargeSecondaryButton>
         <LargeSecondaryButton onClick={handleTextClicked}>
-          Text
+          <FontAwesomeIcon icon={faTextWidth} />
         </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={() => undo()}>Undo</LargeSecondaryButton>
-        <LargeSecondaryButton onClick={() => redo()}>Redo</LargeSecondaryButton>
+        <LargeSecondaryButton onClick={() => undo()}>
+          <FontAwesomeIcon icon={faBackward} />
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={() => redo()}>
+          <FontAwesomeIcon icon={faForward} />
+        </LargeSecondaryButton>
         <UtilSelect
           options={[
             isDark === "white" ? "black" : "",
