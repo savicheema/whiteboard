@@ -8,7 +8,7 @@ import {
   SET_SIZE,
 } from "../store/consts";
 import { saveAs } from "file-saver";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { LargeSecondaryButton, MediumUtilButton } from "./Buttons";
 import "./tool-panel.css";
 import UtilSelect from "../util-components/UtilSelect";
@@ -153,46 +153,57 @@ const ToolPanel = ({
   );
 
   const sizeOptions = useMemo(() => [1, 2, 4], []);
+
+  const [isShow, setIsShow] = useState(true);
   return (
     <div className="tool-panel">
-      <div className="tool-panel-operations">
-        <LargeSecondaryButton onClick={() => setShape("pencil")}>
-          <FontAwesomeIcon icon={faPencil} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={handleLineClicked}>
-          Line
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={handlRectangleClicked}>
-          <FontAwesomeIcon icon={faSquare} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={handleCircleClicked}>
-          <FontAwesomeIcon icon={faCircle} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={handleEraserClicked}>
-          <FontAwesomeIcon icon={faEraser} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={handleTextClicked}>
-          <FontAwesomeIcon icon={faTextWidth} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={() => undo()}>
-          <FontAwesomeIcon icon={faBackward} />
-        </LargeSecondaryButton>
-        <LargeSecondaryButton onClick={() => redo()}>
-          <FontAwesomeIcon icon={faForward} />
-        </LargeSecondaryButton>
-        <UtilSelect
-          options={colorOptions}
-          onChange={handleColorClicked}
-          setState={setColor}
-          optionComponent={colorOptionComponent}
-        />
-        <UtilSelect
-          options={sizeOptions}
-          onChange={handleSizeSelect}
-          setState={setSize}
-          optionComponent={sizeOptionComponent}
-        />
-      </div>
+      <MediumUtilButton
+        onClick={() => {
+          setIsShow((isShow) => !isShow);
+        }}
+      >
+        Toggle collapse
+      </MediumUtilButton>
+      {isShow && (
+        <div className="tool-panel-operations">
+          <LargeSecondaryButton onClick={() => setShape("pencil")}>
+            <FontAwesomeIcon icon={faPencil} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={handleLineClicked}>
+            Line
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={handlRectangleClicked}>
+            <FontAwesomeIcon icon={faSquare} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={handleCircleClicked}>
+            <FontAwesomeIcon icon={faCircle} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={handleEraserClicked}>
+            <FontAwesomeIcon icon={faEraser} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={handleTextClicked}>
+            <FontAwesomeIcon icon={faTextWidth} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={() => undo()}>
+            <FontAwesomeIcon icon={faBackward} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton onClick={() => redo()}>
+            <FontAwesomeIcon icon={faForward} />
+          </LargeSecondaryButton>
+          <UtilSelect
+            options={colorOptions}
+            onChange={handleColorClicked}
+            setState={setColor}
+            optionComponent={colorOptionComponent}
+          />
+          <UtilSelect
+            options={sizeOptions}
+            onChange={handleSizeSelect}
+            setState={setSize}
+            optionComponent={sizeOptionComponent}
+          />
+        </div>
+      )}
 
       <div className="tool-panel-utils">
         <MediumUtilButton onClick={handleDarkColor}>Dark Mode</MediumUtilButton>

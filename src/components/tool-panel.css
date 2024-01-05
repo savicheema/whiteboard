@@ -22,15 +22,20 @@
 
 @media screen and (max-width: 480px) {
   .tool-panel {
-    max-height: 100px;
+    max-height: 480px;
     flex-direction: column;
     justify-content: flex-end;
     padding: 4px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
   .tool-panel-operations {
     padding: 4px;
     height: auto;
+    flex-wrap: wrap;
   }
 
   .tool-panel-utils {
