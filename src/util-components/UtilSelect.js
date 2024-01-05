@@ -3,7 +3,6 @@ import "./util-select.css";
 
 const UtilSelectOptions = ({
   options,
-  option,
   visibleOptions,
   refsObject,
   size,
@@ -95,18 +94,14 @@ const UtilSelect = ({
           </option>
         ))}
       </select>
-      {options.map((option) => (
-        <UtilSelectOptions
-          options={allOptions}
-          key={option}
-          option={option}
-          visibleOptions={visibleOptions}
-          setVisibleOptions={setVisibleOptions}
-          refsObject={refsObject}
-          size={size}
-          optionComponent={optionComponent}
-        />
-      ))}
+      <UtilSelectOptions
+        options={allOptions}
+        visibleOptions={visibleOptions}
+        setVisibleOptions={setVisibleOptions}
+        refsObject={refsObject}
+        size={size}
+        optionComponent={optionComponent}
+      />
     </div>
   );
 };
