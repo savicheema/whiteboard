@@ -151,6 +151,8 @@ const ToolPanel = ({
       ].filter((color) => !!color),
     [isDark]
   );
+
+  const sizeOptions = useMemo(() => [1, 2, 4], []);
   return (
     <div className="tool-panel">
       <div className="tool-panel-operations">
@@ -185,7 +187,7 @@ const ToolPanel = ({
           optionComponent={colorOptionComponent}
         />
         <UtilSelect
-          options={[1, 2, 4]}
+          options={sizeOptions}
           onChange={handleSizeSelect}
           setState={setSize}
           optionComponent={sizeOptionComponent}

@@ -36,9 +36,9 @@ const UtilSelectOptions = ({
         }}
         style={{ ...getSizeStyles(size) }}
       >
-        <OptionComponent value={option} />
+        <OptionComponent value={visibleOptions} />
       </div>
-      {isShow && visibleOptions === option && (
+      {isShow && (
         <div className="app-select-options">
           {options.map((option) => (
             <div
@@ -69,7 +69,7 @@ const UtilSelect = ({
   optionComponent,
   ...props
 }) => {
-  const [allOptions, setAllOptions] = React.useState(options);
+  const allOptions = React.useMemo(() => options, [options]);
   const [visibleOptions, setVisibleOptions] = React.useState(allOptions[0]);
   const refsObject = Object.fromEntries(
     allOptions.map((option) => [option, React.createRef()])
@@ -79,13 +79,6 @@ const UtilSelect = ({
     setState(visibleOptions);
   }, [visibleOptions, setState]);
 
-  React.useEffect(() => {
-    setAllOptions(options);
-  }, [options]);
-
-  React.useEffect(() => {
-    setVisibleOptions(allOptions[0]);
-  }, [allOptions]);
   return (
     <div className="app-select-container" style={{ maxWidth: "108px" }}>
       <select className="app-select" onChange={() => {}} value={visibleOptions}>

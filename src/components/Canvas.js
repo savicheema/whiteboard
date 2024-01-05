@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { SET_OBJECTS, UNDO_ACTION, REDO_ACTION } from "../store/consts";
 import "./Canvas.css";
@@ -136,26 +136,30 @@ const Canvas = ({
     drawObjectsOnCanvas();
   }, [drawObjectsOnCanvas]);
 
-  const handleMouseDown = (e) => {
-    console.log(e, shape);
-    drawingState.current = "draw";
-    const x = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-    const y = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-    lastMousePosition.current = { x, y };
-    objects.push({
-      shape,
-      color,
-      text: "",
-      size,
-      pts: [
-        { x, y },
-        { x, y },
-      ],
-    });
-    setObjects([...objects]);
-  };
+  const handleMouseDown = useCallback(
+    (e) => {
+      console.log("MOUSE DOWN", e, shape);
+      drawingState.current = "draw";
+      const x = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+      const y = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+      lastMousePosition.current = { x, y };
+      objects.push({
+        shape,
+        color,
+        text: "",
+        size,
+        pts: [
+          { x, y },
+          { x, y },
+        ],
+      });
+      setObjects([...objects]);
+    },
+    [shape, color, size, objects, setObjects]
+  );
   const handleMouseMove = (e) => {
     if (drawingState.current === "draw") {
+      console.log("MOUSE MOVE");
       const x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
       const y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
       if (shape === "pencil" || shape === "eraser") {
@@ -211,7 +215,7 @@ const Canvas = ({
 
     event.preventDefault();
   };
-  // console.log(isDark, "isDark");
+
   return (
     <div
       className={["canvas", shape === "eraser" ? "eraser-cursor" : ""]
