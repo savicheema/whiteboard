@@ -5,9 +5,9 @@ const UtilSelectOptions = ({
   options,
   option,
   visibleOptions,
-  setVisibleOptions,
   refsObject,
   size,
+  optionComponent: OptionComponent,
 }) => {
   const [isShow, setIsShow] = React.useState(false);
   const getSizeStyles = (size) => {
@@ -25,7 +25,7 @@ const UtilSelectOptions = ({
       }
     }
   };
-  if (visibleOptions !== option) return null;
+
   return (
     <div className="util-app-select-options">
       <div
@@ -36,17 +36,7 @@ const UtilSelectOptions = ({
         }}
         style={{ ...getSizeStyles(size) }}
       >
-        <div
-          style={{
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            backgroundColor: `${option}`,
-            marginLeft: "8px",
-          }}
-        >
-          &nbsp;
-        </div>
+        <OptionComponent value={option} />
       </div>
       {isShow && visibleOptions === option && (
         <div className="app-select-options">
@@ -62,17 +52,7 @@ const UtilSelectOptions = ({
               }}
               style={option === "white" ? { backgroundColor: "black" } : {}}
             >
-              <div
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                  backgroundColor: `${option}`,
-                  marginLeft: "8px",
-                }}
-              >
-                &nbsp;
-              </div>
+              <OptionComponent value={option} />
             </div>
           ))}
         </div>
@@ -81,21 +61,35 @@ const UtilSelectOptions = ({
   );
 };
 
-const UtilSelect = ({ size, type, options, setColor, ...props }) => {
-  const [visibleOptions, setVisibleOptions] = React.useState(options[0]);
+const UtilSelect = ({
+  size,
+  type,
+  options,
+  setState,
+  optionComponent,
+  ...props
+}) => {
+  const [allOptions, setAllOptions] = React.useState(options);
+  const [visibleOptions, setVisibleOptions] = React.useState(allOptions[0]);
   const refsObject = Object.fromEntries(
-    options.map((option) => [option, React.createRef()])
+    allOptions.map((option) => [option, React.createRef()])
   );
-  console.log("on change", props.onChange);
 
   React.useEffect(() => {
-    setColor(visibleOptions);
-  }, [visibleOptions, setColor]);
+    setState(visibleOptions);
+  }, [visibleOptions, setState]);
 
+  React.useEffect(() => {
+    setAllOptions(options);
+  }, [options]);
+
+  React.useEffect(() => {
+    setVisibleOptions(allOptions[0]);
+  }, [allOptions]);
   return (
     <div className="app-select-container" style={{ maxWidth: "108px" }}>
       <select className="app-select" onChange={() => {}} value={visibleOptions}>
-        {options.map((option, index) => (
+        {allOptions.map((option, index) => (
           <option
             key={index}
             ref={refsObject[option]}
@@ -110,13 +104,14 @@ const UtilSelect = ({ size, type, options, setColor, ...props }) => {
       </select>
       {options.map((option) => (
         <UtilSelectOptions
-          options={options}
+          options={allOptions}
           key={option}
           option={option}
           visibleOptions={visibleOptions}
           setVisibleOptions={setVisibleOptions}
           refsObject={refsObject}
           size={size}
+          optionComponent={optionComponent}
         />
       ))}
     </div>

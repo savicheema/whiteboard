@@ -3,7 +3,16 @@ import { connect } from "react-redux";
 import { SET_OBJECTS, UNDO_ACTION, REDO_ACTION } from "../store/consts";
 import "./Canvas.css";
 
-const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
+const Canvas = ({
+  shape,
+  color,
+  objects,
+  setObjects,
+  isDark,
+  undo,
+  redo,
+  size,
+}) => {
   // const [bgColor, setBgColor] = useState("white")
   const canvasRef = useRef(null);
   const drawingState = useRef("");
@@ -42,14 +51,14 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
             ctx.lineTo(object.pts[i].x, object.pts[i].y);
           }
           ctx.strokeStyle = object.color;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = object.size;
           ctx.stroke();
           break;
 
         case "rect":
           ctx.beginPath();
           ctx.strokeStyle = object.color;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = object.size;
           let x = Math.min(object.pts[0].x, object.pts[1].x);
           let y = Math.min(object.pts[0].y, object.pts[1].y);
           let width = Math.abs(object.pts[0].x - object.pts[1].x);
@@ -61,7 +70,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           console.log("circle");
           ctx.beginPath();
           ctx.strokeStyle = object.color;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = object.size;
           let radius = calcDistance(
             object.pts[0].x,
             object.pts[0].y,
@@ -84,7 +93,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
         // let height = Math.abs(object.pts[0].y - object.pts[1].y);
         // ctx.strokeRect(x, y, width, height);
         case "text":
-          ctx.font = "25px Arial";
+          ctx.font = `${object.size * 12}px Arial`;
           ctx.fillStyle = object.color;
           let metrics = ctx.measureText(object.text);
           console.log(metrics.width);
@@ -104,7 +113,12 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
         case "eraser":
           ctx.globalCompositeOperation = "destination-out";
           for (let i = 0; i < object.pts.length; i++) {
-            ctx.fillRect(object.pts[i].x, object.pts[i].y, 30, 30);
+            ctx.fillRect(
+              object.pts[i].x,
+              object.pts[i].y,
+              10 * object.size,
+              10 * object.size
+            );
           }
           break;
 
@@ -132,6 +146,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
       shape,
       color,
       text: "",
+      size,
       pts: [
         { x, y },
         { x, y },
@@ -225,6 +240,7 @@ const mapStateToProps = (state) => ({
   shape: state.shape,
   objects: state.objects,
   color: state.color,
+  size: state.size,
 });
 
 const mapDispatchToProps = (dispatch) => ({

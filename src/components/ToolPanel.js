@@ -5,9 +5,10 @@ import {
   SET_OBJECTS,
   SET_SHAPE,
   UNDO_ACTION,
+  SET_SIZE,
 } from "../store/consts";
 import { saveAs } from "file-saver";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { LargeSecondaryButton, MediumUtilButton } from "./Buttons";
 import "./tool-panel.css";
 import UtilSelect from "../util-components/UtilSelect";
@@ -31,6 +32,7 @@ const ToolPanel = ({
   isDark,
   objects,
   setObjects,
+  setSize,
 }) => {
   const fileRef = useRef(null);
 
@@ -48,9 +50,14 @@ const ToolPanel = ({
     setShape("circle");
   };
   const handleColorClicked = (evt) => {
-    console.log("COLOR", evt);
     if (evt) {
       setColor(evt.target.value);
+    }
+  };
+
+  const handleSizeSelect = (evt) => {
+    if (evt) {
+      setSize(evt.target.value);
     }
   };
 
@@ -102,6 +109,48 @@ const ToolPanel = ({
     fileRef.current.click();
   };
 
+  const colorOptionComponent = ({ value }) => (
+    <div
+      style={{
+        width: "20px",
+        height: "20px",
+        borderRadius: "50%",
+        backgroundColor: `${value}`,
+        marginLeft: "8px",
+      }}
+    >
+      &nbsp;
+    </div>
+  );
+
+  const sizeOptionComponent = ({ value }) => (
+    <div
+      style={{
+        width: `${value * 5}px`,
+        height: `${value * 5}px`,
+        borderRadius: "50%",
+        backgroundColor: "black",
+        marginLeft: "8px",
+      }}
+    >
+      &nbsp;
+    </div>
+  );
+
+  const colorOptions = useMemo(
+    () =>
+      [
+        isDark === "white" ? "black" : "",
+        "orange",
+        "yellow",
+        "red",
+        "blue",
+        "green",
+        "purple",
+        isDark === "black" ? "white" : "",
+      ].filter((color) => !!color),
+    [isDark]
+  );
   return (
     <div className="tool-panel">
       <div className="tool-panel-operations">
@@ -130,18 +179,16 @@ const ToolPanel = ({
           <FontAwesomeIcon icon={faForward} />
         </LargeSecondaryButton>
         <UtilSelect
-          options={[
-            isDark === "white" ? "black" : "",
-            "orange",
-            "yellow",
-            "red",
-            "blue",
-            "green",
-            "purple",
-            isDark === "black" ? "white" : "",
-          ].filter((color) => !!color)}
+          options={colorOptions}
           onChange={handleColorClicked}
-          setColor={setColor}
+          setState={setColor}
+          optionComponent={colorOptionComponent}
+        />
+        <UtilSelect
+          options={[1, 2, 4]}
+          onChange={handleSizeSelect}
+          setState={setSize}
+          optionComponent={sizeOptionComponent}
         />
       </div>
 
@@ -176,6 +223,7 @@ const mapDispatchToProps = (dispatch) => ({
   redo: () => dispatch({ type: REDO_ACTION }),
   setColor: (color) => dispatch({ type: SET_COLOR, color }),
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
+  setSize: (size) => dispatch({ type: SET_SIZE, size }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPanel);
