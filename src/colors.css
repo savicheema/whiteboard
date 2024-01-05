@@ -2,13 +2,13 @@
   --good-color: hsl(125, 100%, 50%);
   --okay-color: hsl(40, 100%, 60%);
   --bad-color: hsl(0, 80%, 45%);
-  --accent-color-shadow: hsl(325, 60%, 80%);
-  --accent-color: hsl(325, 100%, 75%);
-  --accent-color-transparent: hsla(325, 100%, 94%, 0.5);
-  --accent-color-font: hsl(325, 100%, 50%);
-  --accent-color-font-transparent: hsla(325, 100%, 50%, 0.6);
+  --accent-color-shadow: hsl(325, 80%, 80%);
+  --accent-color: hsl(325, 80%, 75%);
+  --accent-color-transparent: hsla(325, 80%, 94%, 0.7);
+  --accent-color-font: hsl(325, 80%, 50%);
+  --accent-color-font-transparent: hsla(325, 80%, 50%, 0.8);
   --normal-font-transparent: hsla(0, 0%, 0%, 0.6);
-  --gray-color: hsl(325, 65%, 96%);
+  --gray-color: hsl(325, 50%, 96%);
   --notice-accent-color: hsl(325, 100%, 60%);
   --notice-font-color: hsl(325, 100%, 99%);
 }

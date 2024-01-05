@@ -8,3 +8,9 @@
       0 0,
     default !important;
 }
+
+@media screen and (max-width: 480px) {
+  .canvas {
+    height: calc(100vh - 100px);
+  }
+}
