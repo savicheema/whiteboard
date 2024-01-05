@@ -13,7 +13,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
     let distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
     return distance;
   };
-  const drawObjectsOnCanvas = () => {
+  const drawObjectsOnCanvas = React.useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -112,7 +112,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
           break;
       }
     });
-  };
+  }, [isDark, objects]);
 
   useEffect(() => {
     console.log("shape changed", shape);
@@ -120,7 +120,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
 
   useEffect(() => {
     drawObjectsOnCanvas();
-  }, [objects]);
+  }, [drawObjectsOnCanvas]);
 
   const handleMouseDown = (e) => {
     console.log(e, shape);
@@ -186,7 +186,7 @@ const Canvas = ({ shape, color, objects, setObjects, isDark, undo, redo }) => {
       if (event.key.length > 1) {
         return;
       }
-      const regex = /^[~a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+      const regex = /^[~a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
       if (regex.test(event.key)) {
         console.log(event.key);
         objects[objects.length - 1].text += event.key;

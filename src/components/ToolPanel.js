@@ -8,21 +8,15 @@ import {
 } from "../store/consts";
 import { saveAs } from "file-saver";
 import { useRef } from "react";
-import {
-  LargeSecondaryButton,
-  LargeUtilButton,
-  MediumUtilButton,
-} from "./Buttons";
+import { LargeSecondaryButton, MediumUtilButton } from "./Buttons";
 import "./tool-panel.css";
 import UtilSelect from "../util-components/UtilSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
-  faBox,
   faSquare,
   faCircle,
   faEraser,
-  faFileText,
   faTextWidth,
   faBackward,
   faForward,
@@ -46,9 +40,9 @@ const ToolPanel = ({
   const handlRectangleClicked = () => {
     setShape("rect");
   };
-  const handleTriangleClicked = () => {
-    setShape("triangle");
-  };
+  // const handleTriangleClicked = () => {
+  //   setShape("triangle");
+  // };
 
   const handleCircleClicked = () => {
     setShape("circle");

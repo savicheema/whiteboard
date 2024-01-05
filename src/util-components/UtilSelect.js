@@ -25,7 +25,7 @@ const UtilSelectOptions = ({
       }
     }
   };
-  if (visibleOptions != option) return null;
+  if (visibleOptions !== option) return null;
   return (
     <div className="util-app-select-options">
       <div
@@ -90,7 +90,7 @@ const UtilSelect = ({ size, type, options, setColor, ...props }) => {
 
   React.useEffect(() => {
     setColor(visibleOptions);
-  }, [visibleOptions]);
+  }, [visibleOptions, setColor]);
 
   return (
     <div className="app-select-container" style={{ maxWidth: "108px" }}>
