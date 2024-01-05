@@ -1,0 +1,74 @@
+button.app-button {
+  width: 100%;
+
+  background: none;
+  border: none;
+  outline: none;
+
+  /* padding: 4px 8px; */
+  /* border-radius: 4px; */
+
+  font-family: "WorkSans";
+
+  /* margin: 4px 0; */
+  cursor: pointer;
+}
+
+button.app-button.primary {
+  background-color: var(--accent-color);
+  /* border: 1px solid white; */
+  box-shadow: 2px 2px var(--accent-color-shadow);
+
+  color: white;
+  font-family: "WorkSansBoldItalic";
+}
+
+button.app-button.secondary {
+  background-color: white;
+  border: 1px solid var(--accent-color);
+
+  color: var(--accent-color-font);
+  box-shadow: 1px 1px var(--accent-color);
+}
+
+button.app-button.util {
+  background-color: white;
+  border: 1px solid var(--accent-color-transparent);
+
+  color: var(--normal-font-transparent);
+  box-shadow: 1px 1px var(--accent-color-transparent);
+  max-width: 108px;
+}
+
+button.app-button.util:hover {
+  border: 1px solid var(--accent-color);
+  box-shadow: 1px 0px var(--accent-color);
+}
+
+button.app-button.primary:hover {
+  background-color: white;
+  border: 1px solid var(--accent-color);
+
+  color: var(--accent-color);
+}
+
+button.app-button.secondary:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+button.app-button.primary a {
+  color: white !important;
+}
+
+button.app-button.primary:hover a {
+  color: black !important;
+}
+
+button.app-button.secondary a {
+  color: black !important;
+}
+
+button.app-button.secondary:hover a {
+  color: white !important;
+}

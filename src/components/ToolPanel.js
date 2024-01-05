@@ -8,8 +8,24 @@ import {
 } from "../store/consts";
 import { saveAs } from "file-saver";
 import { useRef } from "react";
+import {
+  LargeSecondaryButton,
+  LargeUtilButton,
+  MediumUtilButton,
+} from "./Buttons";
+import "./tool-panel.css";
+import UtilSelect from "../util-components/UtilSelect";
 
-const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, objects, setObjects }) => {
+const ToolPanel = ({
+  setShape,
+  setColor,
+  undo,
+  redo,
+  setDarkMode,
+  isDark,
+  objects,
+  setObjects,
+}) => {
   const fileRef = useRef(null);
 
   const handleLineClicked = () => {
@@ -26,10 +42,12 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
     setShape("circle");
   };
   const handleColorClicked = (evt) => {
+    console.log("COLOR", evt);
     if (evt) {
       setColor(evt.target.value);
     }
   };
+
   const handleEraserClicked = () => {
     setShape("eraser");
 
@@ -54,68 +72,92 @@ const ToolPanel = ({ setShape, setColor, undo, redo, setDarkMode, isDark, object
   };
   const handleExport = () => {
     exportToJsonFile(objects);
-  }
-  
+  };
+
   const handleFileRead = (e) => {
     const content = e.target.result;
-    
+
     // Do something with the file content
     setObjects(JSON.parse(content));
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    
+
     if (file) {
       const reader = new FileReader();
-      
+
       reader.onload = handleFileRead;
       reader.readAsText(file);
     }
-  }
+  };
 
   const handleImport = (e) => {
     fileRef.current.click();
-  }
+  };
 
   return (
-    <div>
-      <button onClick={() => setShape("pencil")}>Pencil</button>
-      <button onClick={handleLineClicked}>Line</button>
-      <button onClick={handlRectangleClicked}>Rectangle</button>
-      {/* <button onClick={}>Triangle</button> */}
-      <button onClick={handleCircleClicked}>Circle</button>
-      {/* <button onClick={ handleColorClicked }>Color</button> */}
-      <button onClick={handleEraserClicked}>Eraser</button>
-      <button onClick={handleTextClicked}>Text</button>
-      <button onClick={() => undo()}>Undo</button>
-      <button onClick={() => redo()}>Redo</button>
-      <select onChange={handleColorClicked}>
-        {console.log(isDark)}
-        {isDark === "white" && (
-          <option style={{ color: "black" }}>black</option>
-        )}
-        <option style={{ color: "orange" }}>orange</option>
-        <option style={{ color: "yellow" }}>yellow</option>
-        <option style={{ color: "red" }}>red</option>
-        <option style={{ color: "blue" }}>blue</option>
-        <option style={{ color: "green" }}>green</option>
-        <option style={{ color: "purple" }}>purple</option>
-        <option style={{ color: "lavendar" }}>Lavender</option>
-        {isDark === "black" && <option style={{ color: "gray" }}>white</option>}
-      </select>
-      <button onClick={handleDarkColor}>Dark Mode</button>
-      <button onClick={handleLightColor}>Light Mode</button>
-      <button onClick={handleExport}>Save & Export</button>
-      <button onClick={handleImport}>Import</button>
-      <input type="file" ref={fileRef} onChange={handleFileChange} style={{display: 'none'}} />
+    <div className="tool-panel">
+      <div className="tool-panel-operations">
+        <LargeSecondaryButton onClick={() => setShape("pencil")}>
+          Pencil
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={handleLineClicked}>
+          Line
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={handlRectangleClicked}>
+          Rectangle
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={handleCircleClicked}>
+          Circle
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={handleEraserClicked}>
+          Eraser
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={handleTextClicked}>
+          Text
+        </LargeSecondaryButton>
+        <LargeSecondaryButton onClick={() => undo()}>Undo</LargeSecondaryButton>
+        <LargeSecondaryButton onClick={() => redo()}>Redo</LargeSecondaryButton>
+        <UtilSelect
+          options={[
+            isDark === "white" ? "black" : "",
+            "orange",
+            "yellow",
+            "red",
+            "blue",
+            "green",
+            "purple",
+            isDark === "black" ? "white" : "",
+          ].filter((color) => !!color)}
+          onChange={handleColorClicked}
+          setColor={setColor}
+        />
+      </div>
+
+      <div className="tool-panel-utils">
+        <MediumUtilButton onClick={handleDarkColor}>Dark Mode</MediumUtilButton>
+        <MediumUtilButton onClick={handleLightColor}>
+          Light Mode
+        </MediumUtilButton>
+        <MediumUtilButton onClick={handleExport}>
+          Save & Export
+        </MediumUtilButton>
+        <MediumUtilButton onClick={handleImport}>Import</MediumUtilButton>
+        <input
+          type="file"
+          ref={fileRef}
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+      </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   shape: state.shape,
-  objects: state.objects
+  objects: state.objects,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -125,6 +167,5 @@ const mapDispatchToProps = (dispatch) => ({
   setColor: (color) => dispatch({ type: SET_COLOR, color }),
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPanel);

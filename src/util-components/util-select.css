@@ -1,0 +1,64 @@
+.app-select-container {
+  position: relative;
+  margin-top: 2px;
+}
+
+.app-select {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+.app-selected {
+  background-color: white;
+  border: 1px solid var(--accent-color-transparent);
+
+  color: var(--normal-font-transparent);
+  box-shadow: 1px 1px var(--accent-color-transparent);
+  max-width: 108px;
+  min-width: 88px;
+
+  display: flex;
+  justify-content: flex-start;
+}
+
+.app-selected:after {
+  position: absolute;
+  content: "";
+  top: 10px;
+  right: 16px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-color: var(--accent-color) transparent transparent transparent;
+}
+
+.util-app-select-options {
+  position: relative;
+}
+
+.app-select-options {
+  position: absolute;
+  bottom: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  left: 2px;
+}
+
+.app-select-option {
+  background-color: white;
+  border: 1px solid var(--accent-color-transparent);
+
+  color: var(--normal-font-transparent);
+  box-shadow: 1px 1px var(--accent-color-transparent);
+  max-width: 108px;
+  min-width: 88px;
+
+  display: flex;
+  justify-content: flex-start;
+
+  padding: 5px 4px;
+}
