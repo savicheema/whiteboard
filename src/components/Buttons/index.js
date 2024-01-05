@@ -17,3 +17,9 @@ export const LargeSecondaryButton = partiallyApply(UtilButton, {
   type: "secondary",
   size: "large",
 });
+
+export const MediumUtilButtonMobile = partiallyApply(UtilButton, {
+  type: "util",
+  size: "medium",
+  screen: "mobile",
+});

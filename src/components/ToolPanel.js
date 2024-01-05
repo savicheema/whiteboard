@@ -9,7 +9,11 @@ import {
 } from "../store/consts";
 import { saveAs } from "file-saver";
 import { useRef, useMemo, useState } from "react";
-import { LargeSecondaryButton, MediumUtilButton } from "./Buttons";
+import {
+  LargeSecondaryButton,
+  MediumUtilButton,
+  MediumUtilButtonMobile,
+} from "./Buttons";
 import "./tool-panel.css";
 import UtilSelect from "../util-components/UtilSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -157,13 +161,13 @@ const ToolPanel = ({
   const [isShow, setIsShow] = useState(true);
   return (
     <div className="tool-panel">
-      <MediumUtilButton
+      <MediumUtilButtonMobile
         onClick={() => {
           setIsShow((isShow) => !isShow);
         }}
       >
         Toggle collapse
-      </MediumUtilButton>
+      </MediumUtilButtonMobile>
       {isShow && (
         <div className="tool-panel-operations">
           <LargeSecondaryButton onClick={() => setShape("pencil")}>

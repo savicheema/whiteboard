@@ -1,7 +1,7 @@
 import React from "react";
 import "./util-button.css";
 
-const UtilButton = ({ type, size, children, isDisabled, ...props }) => {
+const UtilButton = ({ type, size, children, isDisabled, screen, ...props }) => {
   const getSizeStyles = (size) => {
     switch (size) {
       case "large": {
@@ -28,7 +28,7 @@ const UtilButton = ({ type, size, children, isDisabled, ...props }) => {
   return (
     <button
       type="button"
-      className={["app-button", type || ""]
+      className={["app-button", type || "", screen || ""]
         .filter((className) => !!className)
         .join(" ")}
       style={{ ...getSizeStyles(size), ...getDisabledStyles(isDisabled) }}

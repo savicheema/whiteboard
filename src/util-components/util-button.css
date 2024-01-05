@@ -72,3 +72,27 @@ button.app-button.secondary a {
 button.app-button.secondary:hover a {
   color: white !important;
 }
+
+@media screen and (min-width: 480px) {
+  .app-button.mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .app-button.desktop {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .app-button.tablet {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .app-button.table {
+    display: none;
+  }
+}
