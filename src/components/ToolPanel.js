@@ -1,3 +1,4 @@
+import React from "react";
 import { connect } from "react-redux";
 import {
   REDO_ACTION,
@@ -25,6 +26,8 @@ import {
   faTextWidth,
   faBackward,
   faForward,
+  faFileImport,
+  faFileExport,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ToolPanel = ({
@@ -159,6 +162,7 @@ const ToolPanel = ({
   const sizeOptions = useMemo(() => [1, 2, 4], []);
 
   const [isShow, setIsShow] = useState(true);
+
   return (
     <div className="tool-panel">
       <MediumUtilButtonMobile
@@ -210,14 +214,24 @@ const ToolPanel = ({
       )}
 
       <div className="tool-panel-utils">
-        <MediumUtilButton onClick={handleDarkColor}>Dark Mode</MediumUtilButton>
-        <MediumUtilButton onClick={handleLightColor}>
+        <MediumUtilButton
+          onClick={() => {
+            if (isDark === "white") handleDarkColor();
+            if (isDark === "black") handleLightColor();
+          }}
+        >
+          {isDark === "black" && "Light Mode"}
+          {isDark === "white" && "Dark Mode"}
+        </MediumUtilButton>
+        {/* <MediumUtilButton onClick={handleLightColor}>
           Light Mode
-        </MediumUtilButton>
+        </MediumUtilButton> */}
         <MediumUtilButton onClick={handleExport}>
-          Save & Export
+          <FontAwesomeIcon icon={faFileExport} />
         </MediumUtilButton>
-        <MediumUtilButton onClick={handleImport}>Import</MediumUtilButton>
+        <MediumUtilButton onClick={handleImport}>
+          <FontAwesomeIcon icon={faFileImport} />
+        </MediumUtilButton>
         <input
           type="file"
           ref={fileRef}
