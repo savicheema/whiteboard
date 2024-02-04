@@ -20,8 +20,6 @@ import UtilSelect from "../util-components/UtilSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
-  faSquare,
-  faCircle,
   faEraser,
   faTextWidth,
   faBackward,
@@ -29,6 +27,7 @@ import {
   faFileImport,
   faFileExport,
 } from "@fortawesome/free-solid-svg-icons";
+import { CircleSvg, LineSvg, SquareSvg } from "../util-components/svg";
 
 const ToolPanel = ({
   setShape,
@@ -178,13 +177,15 @@ const ToolPanel = ({
             <FontAwesomeIcon icon={faPencil} />
           </LargeSecondaryButton>
           <LargeSecondaryButton onClick={handleLineClicked}>
-            Line
+            <LineSvg />
           </LargeSecondaryButton>
+
           <LargeSecondaryButton onClick={handlRectangleClicked}>
-            <FontAwesomeIcon icon={faSquare} />
+            <SquareSvg />
           </LargeSecondaryButton>
+
           <LargeSecondaryButton onClick={handleCircleClicked}>
-            <FontAwesomeIcon icon={faCircle} />
+            <CircleSvg />
           </LargeSecondaryButton>
           <LargeSecondaryButton onClick={handleEraserClicked}>
             <FontAwesomeIcon icon={faEraser} />
