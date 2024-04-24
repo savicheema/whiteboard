@@ -17,6 +17,8 @@ const Canvas = ({
   const canvasRef = useRef(null);
   const drawingState = useRef("");
   const lastMousePosition = useRef({ x: 0, y: 0 });
+  const [width, setWidth] = React.useState(window.innerWidth);
+  const [height, setHeight] = React.useState(window.innerHeight);
 
   const calcDistance = (x1, y1, x2, y2) => {
     let distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
@@ -221,14 +223,26 @@ const Canvas = ({
     const handleContextMenu = (e) => {
       e.preventDefault();
     };
+    const handleResize = () => {
+      setHeight(window.innerHeight);
+      setWidth(window.innerWidth);
+    };
 
     const canvas = canvasRef.current;
     canvas.addEventListener("contextmenu", handleContextMenu);
 
+    window.addEventListener("resize", handleResize);
+
     return () => {
       canvas.removeEventListener("contextmenu", handleContextMenu);
+
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    drawObjectsOnCanvas();
+  }, [width, height, drawObjectsOnCanvas]);
 
   return (
     <div
@@ -247,8 +261,8 @@ const Canvas = ({
         onTouchEnd={handleMouseUp}
         tabIndex="0"
         ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight * 0.95}
+        width={width}
+        height={height * 0.95}
       />
     </div>
   );
