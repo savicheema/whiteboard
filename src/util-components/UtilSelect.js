@@ -7,7 +7,9 @@ const UtilSelectOptions = ({
   refsObject,
   size,
   optionComponent: OptionComponent,
+  tooltip,
 }) => {
+  const [isHover, setIsHover] = React.useState(false);
   const [isShow, setIsShow] = React.useState(false);
   const getSizeStyles = (size) => {
     switch (size) {
@@ -34,6 +36,12 @@ const UtilSelectOptions = ({
           setIsShow((isShow) => !isShow);
         }}
         style={{ ...getSizeStyles(size) }}
+        onMouseEnter={() => {
+          setIsHover(true);
+        }}
+        onMouseLeave={() => {
+          setIsHover(false);
+        }}
       >
         <OptionComponent value={visibleOptions} />
       </div>
@@ -56,6 +64,37 @@ const UtilSelectOptions = ({
           ))}
         </div>
       )}
+      {tooltip && isHover && (
+        <div
+          style={{
+            height: "1px",
+            width: "1px",
+            float: "right",
+            position: "absolute",
+            top: "-4px",
+            right: "0",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              bottom: "100%",
+              right: "0",
+              height: "24px",
+              minWidth: "48px",
+              backgroundColor: "black",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "0 4px",
+              borderRadius: "4px",
+            }}
+          >
+            {tooltip}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -66,6 +105,7 @@ const UtilSelect = ({
   options,
   setState,
   optionComponent,
+  tooltip,
   ...props
 }) => {
   const allOptions = React.useMemo(() => options, [options]);
@@ -96,11 +136,14 @@ const UtilSelect = ({
       </select>
       <UtilSelectOptions
         options={allOptions}
-        visibleOptions={visibleOptions}
-        setVisibleOptions={setVisibleOptions}
-        refsObject={refsObject}
-        size={size}
-        optionComponent={optionComponent}
+        {...{
+          tooltip,
+          optionComponent,
+          size,
+          refsObject,
+          setVisibleOptions,
+          visibleOptions,
+        }}
       />
     </div>
   );

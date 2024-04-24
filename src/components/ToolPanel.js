@@ -172,31 +172,45 @@ const ToolPanel = ({
       </MediumUtilButtonMobile>
       {isShow && (
         <div className="tool-panel-operations">
-          <LargeSecondaryButton onClick={() => setShape("pencil")}>
+          <LargeSecondaryButton
+            onClick={() => setShape("pencil")}
+            tooltip={"Pencil"}
+          >
             <FontAwesomeIcon icon={faPencil} />
           </LargeSecondaryButton>
-          <LargeSecondaryButton onClick={handleLineClicked}>
+          <LargeSecondaryButton onClick={handleLineClicked} tooltip={"Line"}>
             <LineSvg />
           </LargeSecondaryButton>
 
-          <LargeSecondaryButton onClick={handlRectangleClicked}>
+          <LargeSecondaryButton
+            onClick={handlRectangleClicked}
+            tooltip={"Rectangle"}
+          >
             <SquareSvg />
           </LargeSecondaryButton>
 
-          <LargeSecondaryButton onClick={handleCircleClicked}>
+          <LargeSecondaryButton
+            onClick={handleCircleClicked}
+            tooltip={"Circle"}
+          >
             <CircleSvg />
           </LargeSecondaryButton>
-          <LargeSecondaryButton onClick={handleEraserClicked}>
+
+          <LargeSecondaryButton
+            onClick={handleEraserClicked}
+            tooltip={"Eraser"}
+          >
             <FontAwesomeIcon icon={faEraser} />
           </LargeSecondaryButton>
-          <LargeSecondaryButton onClick={handleTextClicked}>
+
+          <LargeSecondaryButton onClick={handleTextClicked} tooltip={"Text"}>
             {/* <FontAwesomeIcon icon={faTextWidth} /> */}
             <TextSvg />
           </LargeSecondaryButton>
-          <LargeSecondaryButton onClick={() => undo()}>
+          <LargeSecondaryButton onClick={() => undo()} tooltip={"Undo"}>
             <FontAwesomeIcon icon={faBackward} />
           </LargeSecondaryButton>
-          <LargeSecondaryButton onClick={() => redo()}>
+          <LargeSecondaryButton onClick={() => redo()} tooltip={"Redo"}>
             <FontAwesomeIcon icon={faForward} />
           </LargeSecondaryButton>
           <UtilSelect
@@ -204,12 +218,14 @@ const ToolPanel = ({
             onChange={handleColorClicked}
             setState={setColor}
             optionComponent={colorOptionComponent}
+            tooltip={"Color"}
           />
           <UtilSelect
             options={sizeOptions}
             onChange={handleSizeSelect}
             setState={setSize}
             optionComponent={sizeOptionComponent}
+            tooltip={"Size"}
           />
         </div>
       )}
@@ -227,10 +243,10 @@ const ToolPanel = ({
         {/* <MediumUtilButton onClick={handleLightColor}>
           Light Mode
         </MediumUtilButton> */}
-        <MediumUtilButton onClick={handleExport}>
+        <MediumUtilButton onClick={handleExport} tooltip={"Export"}>
           <FontAwesomeIcon icon={faFileExport} />
         </MediumUtilButton>
-        <MediumUtilButton onClick={handleImport}>
+        <MediumUtilButton onClick={handleImport} tooltip={"Import"}>
           <FontAwesomeIcon icon={faFileImport} />
         </MediumUtilButton>
         <input
