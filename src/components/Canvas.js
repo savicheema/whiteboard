@@ -211,9 +211,8 @@ const Canvas = ({
         objects[objects.length - 1].text += event.key;
         setObjects([...objects]);
       }
+      event.preventDefault();
     }
-
-    event.preventDefault();
   };
 
   return (

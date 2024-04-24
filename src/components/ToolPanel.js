@@ -21,13 +21,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
   faEraser,
-  faTextWidth,
   faBackward,
   faForward,
   faFileImport,
   faFileExport,
 } from "@fortawesome/free-solid-svg-icons";
-import { CircleSvg, LineSvg, SquareSvg } from "../util-components/svg";
+import { CircleSvg, LineSvg, SquareSvg, TextSvg } from "../util-components/svg";
 
 const ToolPanel = ({
   setShape,
@@ -191,7 +190,8 @@ const ToolPanel = ({
             <FontAwesomeIcon icon={faEraser} />
           </LargeSecondaryButton>
           <LargeSecondaryButton onClick={handleTextClicked}>
-            <FontAwesomeIcon icon={faTextWidth} />
+            {/* <FontAwesomeIcon icon={faTextWidth} /> */}
+            <TextSvg />
           </LargeSecondaryButton>
           <LargeSecondaryButton onClick={() => undo()}>
             <FontAwesomeIcon icon={faBackward} />

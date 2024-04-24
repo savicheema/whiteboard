@@ -55,6 +55,8 @@ button.app-button.primary:hover {
 button.app-button.secondary:hover {
   background-color: var(--accent-color);
   color: white;
+  border: 1px solid var(--accent-color-shadow);
+  box-shadow: 1px 1px var(--accent-color-shadow);
 }
 
 button.app-button.primary a {

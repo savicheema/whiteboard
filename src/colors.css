@@ -2,7 +2,7 @@
   --good-color: hsl(125, 100%, 50%);
   --okay-color: hsl(40, 100%, 60%);
   --bad-color: hsl(0, 80%, 45%);
-  --accent-color-shadow: hsl(325, 80%, 80%);
+  --accent-color-shadow: hsl(325, 60%, 50%);
   --accent-color: hsl(325, 80%, 75%);
   --accent-color-transparent: hsla(325, 80%, 94%, 0.7);
   --accent-color-font: hsl(325, 80%, 50%);
