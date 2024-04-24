@@ -215,6 +215,21 @@ const Canvas = ({
     }
   };
 
+  // Glitch with working tool and context menu taking user outside
+  // working area
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    const canvas = canvasRef.current;
+    canvas.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      canvas.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
     <div
       className={["canvas", shape === "eraser" ? "eraser-cursor" : ""]
