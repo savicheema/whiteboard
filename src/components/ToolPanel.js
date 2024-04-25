@@ -28,6 +28,7 @@ import {
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { CircleSvg, LineSvg, SquareSvg, TextSvg } from "../util-components/svg";
+import { b64toBlob } from "../utils";
 
 const ToolPanel = ({
   setShape,
@@ -40,6 +41,7 @@ const ToolPanel = ({
   setObjects,
   setSize,
   canvasRef,
+  isMobile,
 }) => {
   const fileRef = useRef(null);
 
@@ -215,24 +217,46 @@ const ToolPanel = ({
           <LargeSecondaryButton onClick={() => redo()} tooltip={"Redo"}>
             <FontAwesomeIcon icon={faForward} />
           </LargeSecondaryButton>
-          <UtilSelect
-            options={colorOptions}
-            onChange={handleColorClicked}
-            setState={setColor}
-            optionComponent={colorOptionComponent}
-            tooltip={"Color"}
-          />
-          <UtilSelect
-            options={sizeOptions}
-            onChange={handleSizeSelect}
-            setState={setSize}
-            optionComponent={sizeOptionComponent}
-            tooltip={"Size"}
-          />
+          {!isMobile && (
+            <>
+              <UtilSelect
+                options={colorOptions}
+                onChange={handleColorClicked}
+                setState={setColor}
+                optionComponent={colorOptionComponent}
+                tooltip={"Color"}
+              />
+              <UtilSelect
+                options={sizeOptions}
+                onChange={handleSizeSelect}
+                setState={setSize}
+                optionComponent={sizeOptionComponent}
+                tooltip={"Size"}
+              />
+            </>
+          )}
         </div>
       )}
 
       <div className="tool-panel-utils">
+        {isMobile && (
+          <>
+            <UtilSelect
+              options={colorOptions}
+              onChange={handleColorClicked}
+              setState={setColor}
+              optionComponent={colorOptionComponent}
+              tooltip={"Color"}
+            />
+            <UtilSelect
+              options={sizeOptions}
+              onChange={handleSizeSelect}
+              setState={setSize}
+              optionComponent={sizeOptionComponent}
+              tooltip={"Size"}
+            />
+          </>
+        )}
         <MediumUtilButton
           onClick={() => {
             if (isDark === "white") handleDarkColor();
@@ -247,7 +271,10 @@ const ToolPanel = ({
         </MediumUtilButton> */}
         <MediumUtilButton
           onClick={() => {
-            window.open(canvasRef.current.toDataURL(), "_blank").focus();
+            const image = canvasRef.current.toDataURL();
+            const blob = b64toBlob(image.split(",")[1], "image/png");
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, "_blank").focus();
           }}
           tooltip={"Screenshot"}
         >

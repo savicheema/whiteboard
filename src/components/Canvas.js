@@ -13,6 +13,7 @@ const Canvas = ({
   redo,
   size,
   canvasRef,
+  isMobile,
 }) => {
   // const [bgColor, setBgColor] = useState("white")
   const drawingState = useRef("");
@@ -244,6 +245,10 @@ const Canvas = ({
     drawObjectsOnCanvas();
   }, [width, height, drawObjectsOnCanvas]);
 
+  useEffect(() => {
+    if (isMobile) window.scroll({ top: 100 });
+  }, [isMobile]);
+
   return (
     <div
       className={["canvas", shape === "eraser" ? "eraser-cursor" : ""]
@@ -262,7 +267,7 @@ const Canvas = ({
         tabIndex="0"
         ref={canvasRef}
         width={width}
-        height={height * 0.95}
+        height={isMobile ? height + 100 : height * 0.95}
       />
     </div>
   );

@@ -36,10 +36,42 @@
     padding: 4px;
     height: auto;
     flex-wrap: wrap;
+    flex: 0 0 200px;
   }
 
   .tool-panel-utils {
     padding: 4px;
     height: auto;
+    flex: 48px;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 960px) {
+  .tool-panel {
+    flex-direction: column;
+    max-height: 100px;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+  }
+
+  .tool-panel-operations {
+    flex: 0 0 48px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    width: 100%;
+  }
+
+  .tool-panel-utils {
+    flex: 0 0 48px;
+    align-items: center;
+    padding: 0 4px;
+    width: 100%;
+    justify-content: space-between;
   }
 }
