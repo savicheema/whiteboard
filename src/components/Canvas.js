@@ -12,9 +12,9 @@ const Canvas = ({
   undo,
   redo,
   size,
+  canvasRef,
 }) => {
   // const [bgColor, setBgColor] = useState("white")
-  const canvasRef = useRef(null);
   const drawingState = useRef("");
   const lastMousePosition = useRef({ x: 0, y: 0 });
   const [width, setWidth] = React.useState(window.innerWidth);
@@ -128,7 +128,7 @@ const Canvas = ({
           break;
       }
     });
-  }, [isDark, objects]);
+  }, [isDark, objects, canvasRef]);
 
   useEffect(() => {
     console.log("shape changed", shape);
@@ -238,7 +238,7 @@ const Canvas = ({
 
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [canvasRef]);
 
   useEffect(() => {
     drawObjectsOnCanvas();

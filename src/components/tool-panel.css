@@ -7,14 +7,14 @@
 }
 
 .tool-panel-operations {
-  flex: 1.5 0 0%;
+  flex: 0 0 800px;
   display: flex;
   justify-content: flex-start;
   height: 40px;
 }
 
 .tool-panel-utils {
-  flex: 1 0 0%;
+  flex: 0 0 400px;
   display: flex;
   justify-content: flex-end;
   height: 32px;

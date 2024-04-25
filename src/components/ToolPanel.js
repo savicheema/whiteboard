@@ -25,6 +25,7 @@ import {
   faForward,
   faFileImport,
   faFileExport,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { CircleSvg, LineSvg, SquareSvg, TextSvg } from "../util-components/svg";
 
@@ -38,6 +39,7 @@ const ToolPanel = ({
   objects,
   setObjects,
   setSize,
+  canvasRef,
 }) => {
   const fileRef = useRef(null);
 
@@ -243,6 +245,14 @@ const ToolPanel = ({
         {/* <MediumUtilButton onClick={handleLightColor}>
           Light Mode
         </MediumUtilButton> */}
+        <MediumUtilButton
+          onClick={() => {
+            window.open(canvasRef.current.toDataURL(), "_blank").focus();
+          }}
+          tooltip={"Screenshot"}
+        >
+          <FontAwesomeIcon icon={faCamera} />
+        </MediumUtilButton>
         <MediumUtilButton onClick={handleExport} tooltip={"Export"}>
           <FontAwesomeIcon icon={faFileExport} />
         </MediumUtilButton>
