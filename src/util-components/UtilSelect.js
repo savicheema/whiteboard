@@ -119,7 +119,7 @@ const UtilSelect = ({
   }, [visibleOptions, setState]);
 
   return (
-    <div className="app-select-container" style={{ maxWidth: "108px" }}>
+    <div className="app-select-container">
       <select className="app-select" onChange={() => {}} value={visibleOptions}>
         {allOptions.map((option, index) => (
           <option

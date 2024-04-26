@@ -1,6 +1,7 @@
 .app-select-container {
   position: relative;
   margin-top: 2px;
+  max-width: 108px;
 }
 
 .app-select {
@@ -65,4 +66,14 @@
   align-items: center;
 
   padding: 5px 4px;
+}
+
+@media screen and (max-width: 1280px) {
+  .app-select-container {
+    max-width: 80px;
+  }
+  .app-selected {
+    max-width: 80px;
+    min-width: 72px;
+  }
 }

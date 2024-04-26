@@ -166,7 +166,7 @@ const ToolPanel = ({
   const [isShow, setIsShow] = useState(true);
 
   return (
-    <div className="tool-panel">
+    <div className={["tool-panel", isMobile ? "mobile" : ""].join(" ")}>
       <MediumUtilButtonMobile
         onClick={() => {
           setIsShow((isShow) => !isShow);
@@ -263,8 +263,11 @@ const ToolPanel = ({
             if (isDark === "black") handleLightColor();
           }}
         >
-          {isDark === "black" && "Light Mode"}
-          {isDark === "white" && "Dark Mode"}
+          {!isMobile && isDark === "black" && "Light Mode"}
+          {!isMobile && isDark === "white" && "Dark Mode"}
+
+          {isMobile && isDark === "black" && "Light"}
+          {isMobile && isDark === "white" && "Dark"}
         </MediumUtilButton>
         {/* <MediumUtilButton onClick={handleLightColor}>
           Light Mode

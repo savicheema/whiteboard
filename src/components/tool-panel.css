@@ -5,6 +5,13 @@
   max-height: 64px;
   background-color: hsla(0, 0%, 95%, 0.8);
 }
+.tool-panel.mobile {
+  max-height: 100px;
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+}
 
 .tool-panel-operations {
   flex: 0 0 800px;
@@ -18,6 +25,10 @@
   display: flex;
   justify-content: flex-end;
   height: 32px;
+}
+
+.tool-panel.mobile > .tool-panel-utils {
+  align-items: center;
 }
 
 @media screen and (max-width: 480px) {

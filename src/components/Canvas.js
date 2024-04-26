@@ -246,7 +246,7 @@ const Canvas = ({
   }, [width, height, drawObjectsOnCanvas]);
 
   useEffect(() => {
-    if (isMobile) window.scroll({ top: 100 });
+    if (isMobile) window.scroll({ top: 96 });
   }, [isMobile]);
 
   return (
@@ -267,7 +267,7 @@ const Canvas = ({
         tabIndex="0"
         ref={canvasRef}
         width={width}
-        height={isMobile ? height + 100 : height * 0.95}
+        height={isMobile ? height + 96 : height * 0.95}
       />
     </div>
   );
