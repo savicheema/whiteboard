@@ -57,6 +57,17 @@ const Canvas = ({
           ctx.lineWidth = object.size;
           ctx.stroke();
           break;
+        case "sketch": {
+          ctx.beginPath();
+          ctx.moveTo(object.pts[0].x, object.pts[0].y);
+          for (let i = 1; i < object.pts.length; i++) {
+            ctx.lineTo(object.pts[i].x, object.pts[i].y);
+          }
+          ctx.strokeStyle = object.color;
+          ctx.lineWidth = object.size * 4;
+          ctx.stroke();
+          break;
+        }
 
         case "rect":
           ctx.beginPath();
@@ -165,7 +176,7 @@ const Canvas = ({
       console.log("MOUSE MOVE");
       const x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
       const y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-      if (shape === "pencil" || shape === "eraser") {
+      if (shape === "pencil" || shape === "eraser" || shape === "sketch") {
         objects[objects.length - 1].pts.push({ x, y });
       } else {
         objects[objects.length - 1].pts[1] = { x, y };

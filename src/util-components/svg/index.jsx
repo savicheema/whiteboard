@@ -136,3 +136,33 @@ export const TextSvg = ({ strokeColor = "red", fillColor = "transparent" }) => {
     </div>
   );
 };
+
+export const SketchSvg = ({
+  strokeColor = "red",
+  fillColor = "transparent",
+}) => {
+  const svgRef = React.useRef(null);
+  const textSvgEl = React.useMemo(() => {
+    let textPath = document.createElementNS(svgns, "path");
+    textPath.setAttribute("d", "M3 0Q3.8 0.2 3 0.8L0.5 1Q-0.5 0.8 0.4 0.2Z");
+    textPath.setAttribute("fill", "currentColor");
+    return textPath;
+  }, []);
+
+  React.useEffect(() => {
+    svgRef.current.appendChild(textSvgEl);
+    // svgRef.current.appendChild(innerCircleSvgEl);
+  }, [textSvgEl]);
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <svg ref={svgRef} viewBox="0 0 3 1" width="48" height="12"></svg>
+    </div>
+  );
+};

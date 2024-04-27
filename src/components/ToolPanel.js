@@ -27,7 +27,13 @@ import {
   faFileExport,
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
-import { CircleSvg, LineSvg, SquareSvg, TextSvg } from "../util-components/svg";
+import {
+  CircleSvg,
+  LineSvg,
+  SketchSvg,
+  SquareSvg,
+  TextSvg,
+} from "../util-components/svg";
 import { b64toBlob } from "../utils";
 
 const ToolPanel = ({
@@ -181,6 +187,12 @@ const ToolPanel = ({
             tooltip={"Pencil"}
           >
             <FontAwesomeIcon icon={faPencil} />
+          </LargeSecondaryButton>
+          <LargeSecondaryButton
+            onClick={() => setShape("sketch")}
+            tooltip={"Sketch"}
+          >
+            <SketchSvg />
           </LargeSecondaryButton>
           <LargeSecondaryButton onClick={handleLineClicked} tooltip={"Line"}>
             <LineSvg />
