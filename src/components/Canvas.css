@@ -1,7 +1,11 @@
 .canvas {
   border: 1px solid #ddd;
-  width: 100vw;
-  height: calc(100vh - 40px);
+  /* position: relative; */
+  /* width: 100vw; */
+  /* height: calc(100vh - 40px); */
+}
+canvas {
+  position: relative;
 }
 .eraser-cursor {
   cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkAgMAAACcbnALAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAlQTFRFAAAAAAAA////g93P0gAAAAN0Uk5TAP//RFDWIQAAAFxJREFUeJxjYMAOWEMdIAzGqFVTISyxVatWBYBZWUDWErAkkLFqJYjFBmKtAumRArMmQJVBFMJZYA1gLdhYEENAxlDCwm8HNlchuRnhD4TfEP5FCgNEuCDCCg8AAHUsdO0s/5hdAAAAAElFTkSuQmCC)

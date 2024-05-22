@@ -59,3 +59,16 @@ export const b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
   const blob = new Blob(byteArrays, { type: contentType });
   return blob;
 };
+
+export function debounce(func, delay) {
+  let timeoutId;
+
+  return function () {
+    const args = arguments;
+
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(function () {
+      func.apply(this, args);
+    }, delay);
+  };
+}

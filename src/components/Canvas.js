@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { SET_OBJECTS, UNDO_ACTION, REDO_ACTION } from "../store/consts";
+import {
+  SET_OBJECTS,
+  UNDO_ACTION,
+  REDO_ACTION,
+  SET_SHAPE,
+} from "../store/consts";
 import "./Canvas.css";
+import { debounce } from "../utils";
 
 const Canvas = ({
   shape,
@@ -14,12 +20,41 @@ const Canvas = ({
   size,
   canvasRef,
   isMobile,
+  setShape,
 }) => {
   // const [bgColor, setBgColor] = useState("white")
   const drawingState = useRef("");
   const lastMousePosition = useRef({ x: 0, y: 0 });
-  const [width, setWidth] = React.useState(window.innerWidth);
-  const [height, setHeight] = React.useState(window.innerHeight);
+  const [width, setWidth] = React.useState(window.innerWidth * 2);
+  const [height, setHeight] = React.useState(window.innerHeight * 2);
+  const [panState, setPanState] = React.useState(1);
+
+  const divRef = useRef(null);
+
+  const getPanCoords = (panState) => {
+    const stateCoordMap = {
+      1: [0, 0],
+      2: [0, -window.innerHeight],
+      3: [-window.innerWidth, 0],
+      4: [-window.innerWidth, -window.innerHeight],
+    };
+    return stateCoordMap[panState];
+  };
+
+  React.useEffect(() => {
+    // alert(`${pan}, ${width},${height}`);
+
+    const [panX, panY] = getPanCoords(panState);
+
+    // alert(`state: ${panState} x: ${panX} & y: ${panY}`);
+
+    canvasRef.current.style["top"] = `${panY}px`;
+    canvasRef.current.style["left"] = `${panX}px`;
+
+    // const mouseUpEvent = new Event("mousedown");
+    // canvasRef.current.dispatchEvent(mouseUpEvent);
+    canvasRef.current.click();
+  }, [panState, canvasRef]);
 
   const calcDistance = (x1, y1, x2, y2) => {
     let distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
@@ -153,33 +188,46 @@ const Canvas = ({
   const handleMouseDown = useCallback(
     (e) => {
       console.log("MOUSE DOWN", e, shape);
+      if (shape === "synthetic") return;
+
       drawingState.current = "draw";
       const x = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
       const y = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
       lastMousePosition.current = { x, y };
+
+      const [panX, panY] = getPanCoords(panState);
       objects.push({
         shape,
         color,
         text: "",
         size,
         pts: [
-          { x, y },
-          { x, y },
+          { x: -1 * panX + x, y: -1 * panY + y },
+          { x: -1 * panX + x, y: -1 * panY + y },
         ],
       });
       setObjects([...objects]);
     },
-    [shape, color, size, objects, setObjects]
+    [shape, color, size, objects, setObjects, panState]
   );
   const handleMouseMove = (e) => {
     if (drawingState.current === "draw") {
       console.log("MOUSE MOVE");
       const x = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
       const y = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+
+      const [panX, panY] = getPanCoords(panState);
+
       if (shape === "pencil" || shape === "eraser" || shape === "sketch") {
-        objects[objects.length - 1].pts.push({ x, y });
+        objects[objects.length - 1].pts.push({
+          x: -1 * panX + x,
+          y: -1 * panY + y,
+        });
       } else {
-        objects[objects.length - 1].pts[1] = { x, y };
+        objects[objects.length - 1].pts[1] = {
+          x: -1 * panX + x,
+          y: -1 * panY + y,
+        };
       }
       setObjects([...objects]);
     }
@@ -236,8 +284,8 @@ const Canvas = ({
       e.preventDefault();
     };
     const handleResize = () => {
-      setHeight(window.innerHeight);
-      setWidth(window.innerWidth);
+      setHeight(height);
+      setWidth(width);
     };
 
     const canvas = canvasRef.current;
@@ -250,7 +298,7 @@ const Canvas = ({
 
       window.removeEventListener("resize", handleResize);
     };
-  }, [canvasRef]);
+  }, [canvasRef, height, width]);
 
   useEffect(() => {
     drawObjectsOnCanvas();
@@ -260,11 +308,30 @@ const Canvas = ({
     if (isMobile) window.scroll({ top: 96 });
   }, [isMobile]);
 
+  const setPanOnWheel = debounce((deltaY) => {
+    if (deltaY > 0) {
+      setPanState((panState) => (panState < 4 ? panState + 1 : panState));
+    } else {
+      setPanState((panState) => (panState > 1 ? panState - 1 : panState));
+    }
+  }, 200);
+  useEffect(() => {
+    window.addEventListener("wheel", (e) => {
+      setShape("synthetic");
+      setPanOnWheel(e.deltaY);
+    });
+  }, [setPanOnWheel, setShape]);
+
   return (
     <div
       className={["canvas", shape === "eraser" ? "eraser-cursor" : ""]
         .filter((className) => !!className)
         .join(" ")}
+      style={{
+        width,
+        height,
+      }}
+      ref={divRef}
     >
       <canvas
         style={{ backgroundColor: isDark }}
@@ -292,6 +359,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setShape: (shape) => dispatch({ type: SET_SHAPE, shape }),
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
   undo: () => dispatch({ type: UNDO_ACTION }),
   redo: () => dispatch({ type: REDO_ACTION }),
