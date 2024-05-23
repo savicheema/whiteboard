@@ -21,13 +21,14 @@ const Canvas = ({
   canvasRef,
   isMobile,
   setShape,
+  panState,
+  setPanState,
 }) => {
   // const [bgColor, setBgColor] = useState("white")
   const drawingState = useRef("");
   const lastMousePosition = useRef({ x: 0, y: 0 });
   const [width, setWidth] = React.useState(window.innerWidth * 2);
   const [height, setHeight] = React.useState(window.innerHeight * 2);
-  const [panState, setPanState] = React.useState(1);
 
   const divRef = useRef(null);
 
@@ -187,8 +188,10 @@ const Canvas = ({
 
   const handleMouseDown = useCallback(
     (e) => {
-      console.log("MOUSE DOWN", e, shape);
-      if (shape === "synthetic") return;
+      if (shape === "synthetic") {
+        setShape("pencil");
+        return;
+      }
 
       drawingState.current = "draw";
       const x = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
@@ -314,12 +317,18 @@ const Canvas = ({
     } else {
       setPanState((panState) => (panState > 1 ? panState - 1 : panState));
     }
-  }, 200);
+  }, 400);
   useEffect(() => {
-    window.addEventListener("wheel", (e) => {
+    const handleWheel = (e) => {
       setShape("synthetic");
       setPanOnWheel(e.deltaY);
-    });
+    };
+
+    window.addEventListener("wheel", handleWheel);
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
   }, [setPanOnWheel, setShape]);
 
   return (
