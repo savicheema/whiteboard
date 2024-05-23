@@ -288,8 +288,17 @@ const ToolPanel = ({
           onClick={() => {
             const image = canvasRef.current.toDataURL();
             const blob = b64toBlob(image.split(",")[1], "image/png");
+
+            const panel1Url = getSubsectionBlobUrl(canvasRef.current, 1);
+            const panel2Url = getSubsectionBlobUrl(canvasRef.current, 2);
+            const panel3Url = getSubsectionBlobUrl(canvasRef.current, 3);
+            const panel4Url = getSubsectionBlobUrl(canvasRef.current, 4);
             const blobUrl = URL.createObjectURL(blob);
-            window.open(blobUrl, "_blank").focus();
+            window.open(blobUrl, "_blank");
+            window.open(panel1Url, "_blank");
+            window.open(panel2Url, "_blank");
+            window.open(panel3Url, "_blank");
+            window.open(panel4Url, "_blank");
           }}
           tooltip={"Screenshot"}
         >
@@ -325,5 +334,76 @@ const mapDispatchToProps = (dispatch) => ({
   setObjects: (objects) => dispatch({ type: SET_OBJECTS, objects }),
   setSize: (size) => dispatch({ type: SET_SIZE, size }),
 });
+
+const getSubsectionBlobUrl = (canvas, panel = 1) => {
+  const buffer = document.createElement("canvas");
+
+  const buffer_ctx = buffer.getContext("2d");
+
+  buffer.width = window.innerWidth;
+  buffer.height = window.innerHeight;
+
+  switch (panel) {
+    case 4: {
+      buffer_ctx.drawImage(
+        canvas,
+        window.innerWidth,
+        window.innerHeight,
+        window.innerWidth,
+        window.innerHeight,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+      break;
+    }
+    case 3: {
+      buffer_ctx.drawImage(
+        canvas,
+        window.innerWidth,
+        0,
+        window.innerWidth,
+        window.innerHeight,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+      break;
+    }
+    case 2: {
+      buffer_ctx.drawImage(
+        canvas,
+        0,
+        window.innerHeight,
+        window.innerWidth,
+        window.innerHeight,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+      break;
+    }
+    case 1:
+    default: {
+      buffer_ctx.drawImage(
+        canvas,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+      );
+    }
+  }
+  const bufferBlob = b64toBlob(buffer.toDataURL().split(",")[1], "image/png");
+
+  return URL.createObjectURL(bufferBlob);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolPanel);
