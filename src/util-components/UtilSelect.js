@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./util-select.css";
 import { makeThrottle } from "../utils";
 
@@ -100,7 +100,7 @@ const UtilSelectOptions = ({
   );
 };
 
-const throttle = makeThrottle(6);
+const throttle = makeThrottle(7);
 const optionChangedThrottled = throttle((setState, visibleOptions) => {
   // console.log("THROTTLED", setState, visibleOptions);
   setState && setState(visibleOptions);
@@ -121,8 +121,10 @@ const UtilSelect = ({
     allOptions.map((option) => [option, React.createRef()])
   );
 
+  const optionChangedThrottledCallback = useCallback(optionChangedThrottled);
+
   React.useEffect(() => {
-    optionChangedThrottled(setState, visibleOptions);
+    optionChangedThrottledCallback(setState, visibleOptions);
   }, [visibleOptions, setState]);
 
   return (

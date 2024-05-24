@@ -76,15 +76,15 @@ export function debounce(func, delay) {
 export const makeThrottle = (ignoreCount) => {
   let count = 0;
 
-  // console.log("MAKING");
+  console.log("MAKING");
   return (fn, ms) => {
     let locked = true;
-    // console.log("THROTTLING", count);
+    console.log("THROTTLING", count);
 
     return function () {
       locked = count < ignoreCount ? true : false;
       count++;
-      // console.log("EXECUTING", count);
+      console.log("EXECUTING", count);
       if (!locked) {
         locked = true;
         fn.apply(this, arguments);
