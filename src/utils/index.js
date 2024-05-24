@@ -72,3 +72,28 @@ export function debounce(func, delay) {
     }, delay);
   };
 }
+
+export const makeThrottle = (ignoreCount) => {
+  let count = 0;
+
+  // console.log("MAKING");
+  return (fn, ms) => {
+    let locked = true;
+    // console.log("THROTTLING", count);
+
+    return function () {
+      locked = count < ignoreCount ? true : false;
+      count++;
+      // console.log("EXECUTING", count);
+      if (!locked) {
+        locked = true;
+        fn.apply(this, arguments);
+
+        setTimeout(() => {
+          // fn.apply(this, arguments);
+          locked = false;
+        }, ms);
+      }
+    };
+  };
+};

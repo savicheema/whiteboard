@@ -1,5 +1,6 @@
 import React from "react";
 import "./util-select.css";
+import { makeThrottle } from "../utils";
 
 const UtilSelectOptions = ({
   options,
@@ -99,6 +100,12 @@ const UtilSelectOptions = ({
   );
 };
 
+const throttle = makeThrottle(6);
+const optionChangedThrottled = throttle((setState, visibleOptions) => {
+  // console.log("THROTTLED", setState, visibleOptions);
+  setState && setState(visibleOptions);
+}, 400);
+
 const UtilSelect = ({
   size,
   type,
@@ -115,7 +122,7 @@ const UtilSelect = ({
   );
 
   React.useEffect(() => {
-    setState(visibleOptions);
+    optionChangedThrottled(setState, visibleOptions);
   }, [visibleOptions, setState]);
 
   return (

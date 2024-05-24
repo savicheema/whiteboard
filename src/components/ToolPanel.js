@@ -138,6 +138,18 @@ const ToolPanel = ({
     </div>
   );
 
+  const screenShotOptionComponent = ({ value }) => (
+    <div
+      style={{
+        width: "fit-content",
+        height: "20px",
+        marginLeft: "8px",
+      }}
+    >
+      {value}
+    </div>
+  );
+
   const sizeOptionComponent = ({ value }) => (
     <div
       style={{
@@ -167,9 +179,76 @@ const ToolPanel = ({
     [isDark]
   );
 
+  const screenshotOptions = useMemo(
+    () => [
+      "Panel 1",
+      "Panel 2",
+      "Panel 3",
+      "Panel 4",
+      "Page 1",
+      "Page 2",
+      "All",
+    ],
+    []
+  );
+
+  const handleScreenshotClicked = (option) => {
+    switch (option) {
+      case "Panel 1": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 1);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      case "Panel 2": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 2);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      case "Panel 3": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 3);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      case "Panel 4": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 4);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      case "Page 1": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 10);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      case "Page 2": {
+        const panel1Url = getSubsectionBlobUrl(canvasRef.current, 20);
+        window.open(panel1Url, "_blank");
+        break;
+      }
+      default: {
+        const image = canvasRef.current.toDataURL();
+        const blob = b64toBlob(image.split(",")[1], "image/png");
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, "_blank");
+      }
+    }
+  };
+
   const sizeOptions = useMemo(() => [1, 2, 4], []);
 
   const [isShow, setIsShow] = useState(true);
+
+  const SelectScreenshot = useMemo(
+    () => (
+      <UtilSelect
+        options={screenshotOptions}
+        onChange={handleScreenshotClicked}
+        setState={handleScreenshotClicked}
+        optionComponent={screenShotOptionComponent}
+        tooltip={"Color"}
+      />
+    ),
+    []
+  );
 
   return (
     <div className={["tool-panel", isMobile ? "mobile" : ""].join(" ")}>
@@ -281,29 +360,7 @@ const ToolPanel = ({
           {isMobile && isDark === "black" && "Light"}
           {isMobile && isDark === "white" && "Dark"}
         </MediumUtilButton>
-        {/* <MediumUtilButton onClick={handleLightColor}>
-          Light Mode
-        </MediumUtilButton> */}
-        <MediumUtilButton
-          onClick={() => {
-            const image = canvasRef.current.toDataURL();
-            const blob = b64toBlob(image.split(",")[1], "image/png");
-
-            const panel1Url = getSubsectionBlobUrl(canvasRef.current, 1);
-            const panel2Url = getSubsectionBlobUrl(canvasRef.current, 2);
-            const panel3Url = getSubsectionBlobUrl(canvasRef.current, 3);
-            const panel4Url = getSubsectionBlobUrl(canvasRef.current, 4);
-            const blobUrl = URL.createObjectURL(blob);
-            window.open(blobUrl, "_blank");
-            window.open(panel1Url, "_blank");
-            window.open(panel2Url, "_blank");
-            window.open(panel3Url, "_blank");
-            window.open(panel4Url, "_blank");
-          }}
-          tooltip={"Screenshot"}
-        >
-          <FontAwesomeIcon icon={faCamera} />
-        </MediumUtilButton>
+        {SelectScreenshot}
         <MediumUtilButton onClick={handleExport} tooltip={"Export"}>
           <FontAwesomeIcon icon={faFileExport} />
         </MediumUtilButton>
@@ -340,11 +397,10 @@ const getSubsectionBlobUrl = (canvas, panel = 1) => {
 
   const buffer_ctx = buffer.getContext("2d");
 
-  buffer.width = window.innerWidth;
-  buffer.height = window.innerHeight;
-
   switch (panel) {
     case 4: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight;
       buffer_ctx.drawImage(
         canvas,
         window.innerWidth,
@@ -359,6 +415,8 @@ const getSubsectionBlobUrl = (canvas, panel = 1) => {
       break;
     }
     case 3: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight;
       buffer_ctx.drawImage(
         canvas,
         window.innerWidth,
@@ -373,6 +431,8 @@ const getSubsectionBlobUrl = (canvas, panel = 1) => {
       break;
     }
     case 2: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight;
       buffer_ctx.drawImage(
         canvas,
         0,
@@ -386,8 +446,42 @@ const getSubsectionBlobUrl = (canvas, panel = 1) => {
       );
       break;
     }
+    case 10: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight * 2;
+      buffer_ctx.drawImage(
+        canvas,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight * 2,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight * 2
+      );
+      break;
+    }
+    case 20: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight * 2;
+      buffer_ctx.drawImage(
+        canvas,
+        window.innerWidth,
+        0,
+        window.innerWidth,
+        window.innerHeight * 2,
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight * 2
+      );
+      break;
+    }
     case 1:
     default: {
+      buffer.width = window.innerWidth;
+      buffer.height = window.innerHeight;
       buffer_ctx.drawImage(
         canvas,
         0,
