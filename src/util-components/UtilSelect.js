@@ -100,9 +100,9 @@ const UtilSelectOptions = ({
   );
 };
 
-const throttle = makeThrottle(7);
+const throttle = makeThrottle(process.env.NODE_ENV === "development" ? 6 : 3);
 const optionChangedThrottled = throttle((setState, visibleOptions) => {
-  // console.log("THROTTLED", setState, visibleOptions);
+  // console.log("THROTTLED", setState, visibleOptions, process.env.NODE_ENV);
   setState && setState(visibleOptions);
 }, 400);
 
