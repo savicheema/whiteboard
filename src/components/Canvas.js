@@ -60,6 +60,14 @@ const Canvas = ({
         case "sketch": {
           ctx.beginPath();
           ctx.moveTo(object.pts[0].x, object.pts[0].y);
+          ctx.arc(
+            object.pts[0].x,
+            object.pts[0].y,
+            object.size,
+            0,
+            Math.PI * 2,
+            true
+          );
           for (let i = 1; i < object.pts.length; i++) {
             ctx.lineTo(object.pts[i].x, object.pts[i].y);
           }
