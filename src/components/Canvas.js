@@ -354,7 +354,7 @@ const Canvas = ({
         tabIndex="0"
         ref={canvasRef}
         width={width}
-        height={isMobile ? height + 96 : height * 0.95}
+        height={isMobile ? height + 96 : height}
       />
     </div>
   );
